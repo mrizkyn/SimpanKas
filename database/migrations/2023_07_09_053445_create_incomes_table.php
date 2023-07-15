@@ -15,6 +15,10 @@ return new class extends Migration
     {
         Schema::create('incomes', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('account_id');
+            $table->string('total');
+            $table->string('descrription');
+            $table->date('date');
             $table->timestamps();
         });
     }

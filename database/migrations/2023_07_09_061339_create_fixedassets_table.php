@@ -15,6 +15,9 @@ return new class extends Migration
     {
         Schema::create('fixedassets', function (Blueprint $table) {
             $table->id();
+           
+
+
             $table->timestamps();
         });
     }

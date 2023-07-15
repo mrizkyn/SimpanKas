@@ -15,6 +15,12 @@ return new class extends Migration
     {
         Schema::create('receivables', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('account_id');
+            $table->string('debt_recipient');
+            $table->bigInteger('receive_nominal');
+            $table->date('payment_date');
+            $table->string('receive_desc');
+            $table->date('receive_date');
             $table->timestamps();
         });
     }

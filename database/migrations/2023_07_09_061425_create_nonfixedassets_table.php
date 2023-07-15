@@ -15,7 +15,11 @@ return new class extends Migration
     {
         Schema::create('nonfixedassets', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('account_id');
+            $table->string('name');
             $table->timestamps();
+
+            $table->foreign('account_id')->references('id')->on('accounts');
         });
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Account;
 use Illuminate\Http\Request;
 
 class AccountController extends Controller
@@ -13,7 +14,9 @@ class AccountController extends Controller
      */
     public function index()
     {
-        //
+        $accounts = Account::all();
+        $accounts = Account::paginate(5);
+        return view('Manager.Account.index', compact('accounts'));
     }
 
     /**
@@ -23,7 +26,7 @@ class AccountController extends Controller
      */
     public function create()
     {
-        //
+    
     }
 
     /**
@@ -34,7 +37,19 @@ class AccountController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'code_name' => 'required',
+            'account_name' => 'required',
+        ]);
+    
+        // Memastikan nilai 'code_name' dan 'account_name' ada sebelum menyimpan data
+        $account = new Account();
+        $account->code_name = $request->input('code_name');
+        $account->account_name = $request->input('account_name');
+        $account->save();
+
+        $request->session()->flash('success', 'Data Berhasil Disimpan');
+        return redirect('/Account');
     }
 
     /**
@@ -68,7 +83,13 @@ class AccountController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $account = Account::findOrFail($id);
+        $account->code_name = $request->input('edit_code_name');
+        $account->account_name = $request->input('edit_account_name');
+        $account->save();
+
+        // Redirect ke halaman yang sesuai atau tampilkan pesan sukses
+        return redirect()->back()->with('success', 'Data akun berhasil diperbarui.');
     }
 
     /**
@@ -79,6 +100,12 @@ class AccountController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $account = Account::findOrFail($id);
+
+        // Hapus data akun
+        $account->delete();
+    
+        // Setelah menghapus, kembali ke halaman '/Account' dengan pesan flash
+        return redirect('/Account')->with('success', 'Data berhasil dihapus');
     }
 }

@@ -15,6 +15,12 @@ return new class extends Migration
     {
         Schema::create('expenditures', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('account_id');
+            $table->string('category_exp');
+            $table->bigInteger('nominal_exp');
+            $table->string('exp_desc');
+            $table->date('date');
+
             $table->timestamps();
         });
     }
