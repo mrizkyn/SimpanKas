@@ -7,5 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Fixedasset extends Model
 {
-    use HasFactory;
+    protected $fillable = ['account_id', 'descrription', 'total', 'date'];
+
+    public function Account(){
+        return $this->belongsTo(Account::class);
+    }
 }
