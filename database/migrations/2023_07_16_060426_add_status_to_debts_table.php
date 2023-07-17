@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Income;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,15 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('incomes', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('account_id');
-            $table->string('total');
-            $table->string('descrription');
-            $table->date('date');
-            $table->timestamps();
-
-            
+        Schema::table('debts', function (Blueprint $table) {
+            $table->string('status')->default('belum lunas');
         });
     }
 
@@ -33,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('incomes');
+        Schema::table('debts', function (Blueprint $table) {
+            //
+        });
     }
 };

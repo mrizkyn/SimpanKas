@@ -7,5 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Expenditure extends Model
 {
-    use HasFactory;
+    protected $fillable = ['account_id', 'category_exp', 'nominal_exp', 'exp_desc', 'date'];
+
+    public function Account(){
+        return $this->belongsTo(Account::class);
+    }
+
 }

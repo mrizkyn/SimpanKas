@@ -56,7 +56,7 @@
           <div class="col-xl-3 col-md-6" data-aos="fade-up" data-aos-delay="500">
             <div class="icon-box">
               <div class="icon"><i class="bi bi-cash"></i></div>
-              <h4 class="title"><a href="" class="stretched-link">Pengeluaran</a></h4>
+              <h4 class="title"><a href="/Expenditure" class="stretched-link">Pengeluaran</a></h4>
             </div>
           </div><!--End Icon Box -->
     
@@ -77,7 +77,7 @@
           <div class="col-xl-3 col-md-6" data-aos="fade-up" data-aos-delay="500">
             <div class="icon-box">
               <div class="icon"><i class="bi bi-receipt"></i></div>
-              <h4 class="title"><a href="" class="stretched-link">Catat Piutang</a></h4>
+              <h4 class="title"><a href="/Receivables" class="stretched-link">Catat Piutang</a></h4>
             </div>
           </div><!--End Icon Box -->
           

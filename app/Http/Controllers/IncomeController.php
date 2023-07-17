@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Income;
+use App\Models\Account;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
@@ -14,8 +16,11 @@ class IncomeController extends Controller
      */
     public function index()
     {
-    
-        return view('Manager.Income.index');
+        $incomes = Income::all();
+        $accounts = Account::all();
+        $incomes = Income::with('Account')->paginate(5);
+        return view('Manager.Income.index', compact('incomes','accounts'));
+        
     }
 
     /**
@@ -36,7 +41,27 @@ class IncomeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $accounts = Account::all();
+
+        $validatedData = $request->validate([
+         'account_id' => 'required',
+         'descrription' => 'required', 
+         'total' => 'required',
+         'date' => 'required',
+        ]);
+
+        $income = new Income();
+        $income->account_id = $request->input('account_id');
+        $income->descrription = $request->input('descrription');
+        $income->total = $request->input('total');
+        $income->date = $request->input('date');
+        $income->save();
+
+        $request->session()->flash('success', 'Data Berhasil Disimpan');
+        return redirect('/Income');
+
+
+        
     }
 
     /**

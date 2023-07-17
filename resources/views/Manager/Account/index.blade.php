@@ -61,7 +61,7 @@
                                             <label for="code_name" class="form-label">No Akun</label>
                                             <input type="text" class="form-control  @error('code_name') is-invalid @enderror"
                                                 id="code_name" name="code_name" value="{{ old('code_name') }}"
-                                                placeholder="code_name">
+                                                placeholder="No Akun">
                                             <div class="@error('code_name') @enderror invalid-feedback">
                                                 @foreach ($errors->get('code_name') as $message)
                                                 {{ $message }}
@@ -73,7 +73,7 @@
                                             <label for="account_name" class="form-label">Nama Akun</label>
                                             <input type="text" class="form-control @error('account_name') is-invalid @enderror"
                                                 id="account_name" name="account_name" value="{{ old('account_name') }}"
-                                                placeholder="account_name">
+                                                placeholder="Nama Akun">
                                             <div class="@error('account_name') @enderror invalid-feedback">
                                                 @foreach ($errors->get('account_name') as $message)
                                                 {{ $message }}

@@ -7,5 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Receivable extends Model
 {
-    use HasFactory;
+    protected $fillable = ['account_id', 'debt_recipient', 'receive_nominal', 'payment_date', 'receive_desc', 'date'];
+
+    public function Account(){
+        return $this->belongsTo(Account::class);
+    }
 }

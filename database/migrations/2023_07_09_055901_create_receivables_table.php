@@ -20,7 +20,7 @@ return new class extends Migration
             $table->bigInteger('receive_nominal');
             $table->date('payment_date');
             $table->string('receive_desc');
-            $table->date('receive_date');
+            $table->date('date');
             $table->timestamps();
         });
     }

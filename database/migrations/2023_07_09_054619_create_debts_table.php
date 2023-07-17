@@ -20,7 +20,7 @@ return new class extends Migration
             $table->bigInteger('debt_nominal');
             $table->date('due_date');
             $table->string('debt_desc');
-            $table->date('debt_date');
+            $table->date('date');
             $table->timestamps();
         });
     }
