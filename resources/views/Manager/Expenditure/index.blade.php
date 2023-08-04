@@ -34,7 +34,6 @@
         <div class="row mb-3">
             <div class="col-md-6 mt-3">
                 <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#tambahDataModal">Tambah Data</button>
-
                 <div class="modal fade" id="tambahDataModal" tabindex="-1" aria-labelledby="tambahDataModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -95,7 +94,7 @@
                                                 @endforeach
                                             </div>
                                         </div>
-
+                
                                         <div class="mb-3">
                                             <label for="exp_desc" class="form-label">Deskripsi Pengeluaran</label>
                                             <input type="text" class="form-control @error('exp_desc') is-invalid @enderror" id="exp_desc"
@@ -116,16 +115,33 @@
                                                 @endforeach
                                             </div>
                                         </div>
+                
+                                        <div class="mb-3">
+                                            <label for="jenis_dropdown" class="form-label">Jenis Pengeluaran</label>
+                                            <select class="form-control @error('jenis_dropdown') is-invalid @enderror" id="jenis_dropdown"
+                                                name="jenis_dropdown">
+                                                <option value="table1">Jenis 1</option>
+                                                <option value="table2">Jenis 2</option>
+                                                <!-- Tambahkan opsi lain sesuai kebutuhan -->
+                                            </select>
+                                            <div class="@error('jenis_dropdown') @enderror invalid-feedback">
+                                                @foreach ($errors->get('jenis_dropdown') as $message)
+                                                    {{ $message }}
+                                                @endforeach
+                                            </div>
+                                        </div>
+                
+                                        <div class="modal-footer">
+                                            <button id="btnSimpan" type="submit" class="btn btn-primary">Simpan</button>
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                        </div>
+                                    </form>
                                 </div>
-                                <div class="modal-footer">
-                                    <button id="btnSimpan" type="submit" class="btn btn-primary">Simpan</button>
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                                </div>
-                                </form>
                             </div>
                         </div>
                     </div>
                 </div>
+                
                 
             </div>
             <div class="col-md-6 mt-3">

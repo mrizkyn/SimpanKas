@@ -127,7 +127,7 @@
                         <th>No</th>
                         <th>No Akun</th>
                         <th>Deskripsi</th>
-                        <th>Total Pemasukan</th>
+                        <th>Total Penjualan</th>
                         <th>Tanggal</th>
                     </tr>
                 </thead>

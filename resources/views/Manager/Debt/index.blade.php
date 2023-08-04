@@ -190,7 +190,7 @@
                         <td>{{ $debt->date }}</td>
                         <td>
                             <a href="{{ route('debt.toggleStatus', $debt->id) }}" class="card-link" onclick="event.preventDefault(); document.getElementById('toggle-status-form-{{ $debt->id }}').submit();">
-                                <div class="card-status {{ $debt->status === 'lunas' ? 'bg-lunas' : 'bg-belums-lunas' }}">
+                                <div class="card-status {{ $debt->status === 'lunas' ? 'bg-lunas' : 'bg-belum-lunas' }}">
                                     {{ $debt->status }}
                                 </div>
                             </a>
