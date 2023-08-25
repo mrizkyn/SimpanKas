@@ -1,9 +1,12 @@
-<head>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- Sisipkan file CSS dan JavaScript Bootstrap -->
+ 
     <style>
+        
+        .card {
+            margin-top: 100px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            padding: 0px;
+            margin-bottom: 200px
+        }
         .table-container {
             margin-top: 5cm;
         }
@@ -18,185 +21,99 @@
 
         body {
         height: 100vh;
-    }
+        }
+</style>
 
-    </style>
-</head>
+@extends('layouts.app')
 
-<body style="background-color: rgba(0, 131, 116, 0.9)">
-    @extends('layouts.app')
-
-    @section('content')
-
-    <div class="container-fluid table-container rounded" style="background-color: white">
-        <div class="row mb-3">
-            <div class="col-md-6 mt-3">
-                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#tambahDataModal">Tambah Data</button>
-
-                <div class="modal fade" id="tambahDataModal" tabindex="-1" aria-labelledby="tambahDataModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="tambahDataModalLabel">Tambah Data</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="mb-3">
-                                    @if ($errors->any())
-                                    <div class="alert alert-danger">
-                                        Validation Error!
-                                    </div>
-                                    @endif
-
-                                    @if (session('success'))
-                                    <div class="alert alert-success">
-                                        {{ session('success') }}
-                                    </div>
-                                    @endif
-                                    <form id="formTambahData" action="/Account/store" method="POST">
-                                        @csrf
-
-                                        <div class="mb-3">
-                                            <label for="code_name" class="form-label">No Akun</label>
-                                            <input type="text" class="form-control  @error('code_name') is-invalid @enderror"
-                                                id="code_name" name="code_name" value="{{ old('code_name') }}"
-                                                placeholder="No Akun">
-                                            <div class="@error('code_name') @enderror invalid-feedback">
-                                                @foreach ($errors->get('code_name') as $message)
-                                                {{ $message }}
-                                                @endforeach
-                                            </div>
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label for="account_name" class="form-label">Nama Akun</label>
-                                            <input type="text" class="form-control @error('account_name') is-invalid @enderror"
-                                                id="account_name" name="account_name" value="{{ old('account_name') }}"
-                                                placeholder="Nama Akun">
-                                            <div class="@error('account_name') @enderror invalid-feedback">
-                                                @foreach ($errors->get('account_name') as $message)
-                                                {{ $message }}
-                                                @endforeach
-                                            </div>
-                                        </div>
-                                </div>
-                                <!-- Tambahkan input dan elemen lainnya di sini -->
-                                <div class="modal-footer">
-                                    <button id="btnSimpan" type="submit" class="btn btn-primary">Simpan</button>
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                                </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+<body style=" background-color: rgba(0, 131, 116, 0.9);">
+    
+@section('content')
+<div class="container">
+    
+<div class="modal fade" id="addDataModal" tabindex="-1" aria-labelledby="addDataModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addDataModalLabel">Tambah Data</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="col-md-6 mt-3">
-                <div class="input-group">
-                    <input type="text" class="form-control" id="searchInput" placeholder="Cari...">
-
-
-                    <div class="input-group-append">
-                       <button type="button" class="btn btn-primary" id="searchButton">Cari</button>
-
+            <div class="modal-body">
+                <!-- Tempatkan form di dalam modal -->
+                <form action="{{ route('account.store') }}" method="POST">
+                    @csrf
+                    <div class="form-group">
+                        <label for="parent_account">Induk Akun:</label>
+                        <select class="form-control" id="parent_account" name="parent_id">
+                            <option value="">Pilih Induk Akun</option>
+                            @foreach ($a as $account)
+                                <option value="{{ $account->id }}" data-code="{{ $account->code_name }}">{{ $account->code_name }} - {{ $account->account_name }}</option>
+                            @endforeach
+                        </select>
                     </div>
-                </div>
+                    <div class="form-group">
+                        <label for="child_account">Sub Akun:</label>
+                        <select class="form-control" id="child_account" name="child_id" disabled>
+                            <option value="" selected disabled>Pilih Sub Akun</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="code_name">No Akun:</label>
+                        <input type="text" class="form-control" id="code_name" name="code_name" readonly required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="account_name">Nama Akun:</label>
+                        <input type="text" class="form-control" id="account_name" name="account_name" required>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="btnSimpan" type="submit" class="btn btn-success">Simpan</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Tutup</button>
+                    </div>
+                </form>
             </div>
         </div>
-        <h2><b>Kelola No Akun</b></h2>
-        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
-            <table class="table table-striped">
+    </div>
+</div>
+
+<div class="container-fluid">
+        <div class="card">
+            <div class="card-body">
+                <h2><b>Nomor Akun</b></h2>
+                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addDataModal">
+                    Tambah Data
+                </button>
+                <br>
+                <br>
+        <div class="table-responsive nowrap" style="width:100%">
+            <table id="accountsTable" class="table table-striped">
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>No Akun</th>
+                        <th>No</th>
+                        <th>Kode Akun</th>
                         <th>Nama Akun</th>
-                        <th>Aksi</th>
-                    </tr>
                 </thead>
                 <tbody class="table-striped">
                     @foreach ($accounts as $account)
                     <tr>
-                        <th scope="row">{{ $account->id }}</th>
-                        <td>{{ $account->code_name }}</td>
-                        <td>{{ $account->account_name }}</td>
+                        <td>{{ $loop->iteration }}</td>
                         <td>
-                            <div class="btn-group">
-                                <form action="">
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                        data-bs-target="#editDataModal{{ $account->id }}">Edit</button>
-                                </form>
-                            </div>
+                            {{  $account->code_name }}
                         </td>
-                    </tr>
-                    <tr>
-                        <div class="modal fade" id="editDataModal{{ $account->id }}"
-                            tabindex="-1" aria-labelledby="editDataModalLabel{{ $account->id }}" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="editDataModalLabel{{ $account->id }}">Edit Data</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form action="{{ route('account.update', $account->id) }}" method="POST">
-                                            @csrf
-
-                                            <div class="mb-3">
-                                                <label for="edit_code_name" class="form-label">No Akun</label>
-                                                <input type="text"
-                                                    class="form-control  @error('edit_code_name') is-invalid @enderror"
-                                                    id="edit_code_name" name="edit_code_name"
-                                                    value="{{ $account->code_name }}" placeholder="code_name">
-                                                <div class="@error('edit_code_name') @enderror invalid-feedback">
-                                                    @foreach ($errors->get('edit_code_name') as $message)
-                                                    {{ $message }}
-                                                    @endforeach
-                                                </div>
-                                            </div>
-
-                                            <div class="mb-3">
-                                                <label for="edit_account_name" class="form-label">Nama Akun</label>
-                                                <input type="text"
-                                                    class="form-control @error('edit_account_name') is-invalid @enderror"
-                                                    id="edit_account_name" name="edit_account_name"
-                                                    value="{{ $account->account_name }}" placeholder="account_name">
-                                                <div class="@error('edit_account_name') @enderror invalid-feedback">
-                                                    @foreach ($errors->get('edit_account_name') as $message)
-                                                    {{ $message }}
-                                                    @endforeach
-                                                </div>
-                                            </div>
-
-                                            <div class="modal-footer">
-                                                <button type="submit" class="btn btn-primary">Simpan</button>
-                                                <button type="button" class="btn btn-secondary"
-                                                    data-bs-dismiss="modal">Tutup</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <td>{{ $account->account_name }}</td>
                     </tr>
                     @endforeach
                 </tbody>
-                <tfoot>
-                    <tr>
-                        <td colspan="4">
-                            {{  $accounts->links('pagination::bootstrap-4')}}
-                        </td>
-                    </tr>
-                </tfoot>
+               
 
             </table>
         </div>
+        </div>
+        </div>
     </div>
-
+    </div>
     @endsection
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
     @if (session('success'))
     <script>
         alert('{{ session('success') }}');
@@ -204,31 +121,105 @@
     @endif
 
     <script>
-        document.getElementById("searchButton").addEventListener("click", function() {
-            var input = document.getElementById("searchInput").value.toLowerCase();
-            var rows = document.getElementsByTagName("tr");
-    
-            for (var i = 0; i < rows.length; i++) {
-                var cells = rows[i].getElementsByTagName("td");
-                var match = false;
-    
-                for (var j = 0; j < cells.length; j++) {
-                    var cellText = cells[j].textContent.toLowerCase();
-    
-                    if (cellText.includes(input)) {
-                        match = true;
-                        break;
+        $(document).ready(function () {
+            var table = $('#accountsTable').DataTable( {
+             responsive: true
+         } );
+ 
+            new $.fn.dataTable.FixedHeader( table );
+          } );
+      
+        </script>
+        
+
+        <script>
+            $(document).ready(function () {
+                $('#parent_account').change(function () {
+                    var parent_id = $(this).val();
+                    var parent_code = $(this).find(':selected').data('code');
+                    var childAccountSelect = $('#child_account');
+            
+                    if (parent_id !== '') {
+                        $.ajax({
+                            url: '{{ route("get.child") }}',
+                            type: 'GET',
+                            data: { parent_id: parent_id },
+                            success: function (response) {
+                                childAccountSelect.empty().append('<option value="" selected disabled>Pilih Sub Akun</option>');
+                                childAccountSelect.append('<option value="non_select_sub">Tidak Memilih Sub</option>');
+                                $.each(response, function (index, childAccount) {
+                                    childAccountSelect.append('<option value="' + childAccount.id + '">' + childAccount.code_name + ' - ' + childAccount.account_name + '</option>');
+                                });
+                                childAccountSelect.prop('disabled', false);
+                            }
+                        });
+                    } else {
+                        childAccountSelect.empty().append('<option value="" selected disabled>Pilih Sub Akun</option>');
+                        childAccountSelect.prop('disabled', true);
                     }
+                });
+            
+                $('#child_account').change(function () {
+                    var selectedChildCode = $('option:selected', this).text().split(' ')[0];
+                    var selectedParentCode = $('#parent_account option:selected').data('code');
+            
+                    if (selectedChildCode === 'Tidak') {
+                        var parentCodeNumber = parseInt(selectedParentCode);
+                        if (!isNaN(parentCodeNumber)) {
+                            var newCode = parentCodeNumber + 10;
+                            checkAndSetCode(newCode);
+                        }
+                    } else {
+                        var childCodeNumber = parseInt(selectedChildCode);
+                        if (!isNaN(childCodeNumber)) {
+                            var newCode = findNextAvailableCode(childCodeNumber + 1);
+                            checkAndSetCode(newCode);
+                        }
+                    }
+                });
+            
+                function checkAndSetCode(code) {
+                    $.ajax({
+                        url: '{{ route("check.code") }}',
+                        type: 'GET',
+                        data: { code: code },
+                        success: function (response) {
+                            if (response.exists) {
+                                checkAndSetCode(code + 10);
+                                
+                            } else {
+                                $('#code_name').val(code);
+                            }
+                        }
+                    });
                 }
-    
-                if (match) {
-                    rows[i].style.display = "";
-                } else {
-                    rows[i].style.display = "none";
+            
+                function findNextAvailableCode(startCode) {
+                    var currentCode = startCode;
+                    while (codeExistsInDatabase(currentCode)) {
+                        currentCode += 1;
+                    }
+                    return currentCode;
                 }
-            }
-        });
-    </script>
-    
-    
-</body>
+            
+                function codeExistsInDatabase(code) {
+                    var exists = false;
+                    $.ajax({
+                        async: false, 
+                        url: '{{ route("check.code") }}',
+                        type: 'GET',
+                        data: { code: code },
+                        success: function (response) {
+                            exists = response.exists;
+                        }
+                    });
+                    return exists;
+                }
+            
+                $('#parent_account').change();
+            });
+            </script>
+            
+
+
+        </body>

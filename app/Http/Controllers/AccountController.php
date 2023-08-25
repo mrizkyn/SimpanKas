@@ -14,10 +14,13 @@ class AccountController extends Controller
      */
     public function index()
     {
-        $accounts = Account::all();
-        $accounts = Account::paginate(5);
-        return view('Manager.Account.index', compact('accounts'));
+        $accounts = Account::orderBy('code_name','asc')->get();
+        $a = Account::where('parent_id', null)->orderBy('code_name', 'asc')->get();
+      
+        return view('Manager.Account.index', compact('accounts','a'));
     }
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -37,19 +40,16 @@ class AccountController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'code_name' => 'required',
-            'account_name' => 'required',
-        ]);
-    
-        // Memastikan nilai 'code_name' dan 'account_name' ada sebelum menyimpan data
-        $account = new Account();
+        
+        $account = new Account;
+        $account->parent_id = $request->input('parent_id');
         $account->code_name = $request->input('code_name');
         $account->account_name = $request->input('account_name');
         $account->save();
 
-        $request->session()->flash('success', 'Data Berhasil Disimpan');
-        return redirect('/Account');
+
+
+        return redirect()->route('accounts.index')->with('success', 'Account added successfully!');
     }
 
     /**
@@ -83,13 +83,7 @@ class AccountController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $account = Account::findOrFail($id);
-        $account->code_name = $request->input('edit_code_name');
-        $account->account_name = $request->input('edit_account_name');
-        $account->save();
-
-        // Redirect ke halaman yang sesuai atau tampilkan pesan sukses
-        return redirect()->back()->with('success', 'Data akun berhasil diperbarui.');
+     
     }
 
     /**
@@ -100,12 +94,19 @@ class AccountController extends Controller
      */
     public function destroy($id)
     {
-        $account = Account::findOrFail($id);
+        // $account = Account::findOrFail($id);
 
-        // Hapus data akun
-        $account->delete();
+        // // Hapus data akun
+        // $account->delete();
     
-        // Setelah menghapus, kembali ke halaman '/Account' dengan pesan flash
-        return redirect('/Account')->with('success', 'Data berhasil dihapus');
+        // // Setelah menghapus, kembali ke halaman '/Account' dengan pesan flash
+        // return redirect('/Account')->with('success', 'Data berhasil dihapus');
     }
+
+// ... (kode lain pada controller)
+
+ 
+
+
+
 }

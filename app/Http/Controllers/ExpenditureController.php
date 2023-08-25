@@ -17,8 +17,9 @@ class ExpenditureController extends Controller
     {
         $expenditures = Expenditure::all();
         $accounts = Account::all();
-        $expenditures = Expenditure::with('Account')->paginate(5);
-        return view('Manager.Expenditure.index', compact('expenditures','accounts'));
+        $a = Account::whereIn('id', [1, 5])->get();
+        // $expenditures = Expenditure::with('Account');
+        return view('Manager.Expenditure.index', compact('expenditures','accounts','a'));
     }
 
     /**
@@ -26,7 +27,22 @@ class ExpenditureController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+
+
+     public function getChildAccounts(Request $request)
+     {
+         $parent_id = $request->input('parent_id');
+         $childAccounts = Account::where('parent_id', $parent_id)->where('parent_id',[1,5])->get();
+         return response()->json($childAccounts);
+     }
+     public function checkCode(Request $request)
+     {
+         $code = $request->input('code');
+         $exists = Account::where('code_name', $code)->exists();
+         return response()->json(['exists' => $exists]);
+     }
+
+     public function create()
     {
         //
     }
@@ -39,28 +55,24 @@ class ExpenditureController extends Controller
      */
     public function store(Request $request)
     {
-        $accounts = Account::all();
-
         $validatedData = $request->validate([
-         'account_id' => 'required',
-         'category_exp' => 'required', 
-         'nominal_exp' => 'required',
-         'exp_desc' => 'required',
-         'date' => 'required',
+            'date' => 'required',
+            'account_id' => 'required',
+            'exp_desc' => 'required',
+            'nominal_exp' => 'required',
         ]);
-
+    
         $exp = new Expenditure();
-        $exp->account_id = $request->input('account_id');
-        $exp->category_exp = $request->input('category_exp');
-        $exp->nominal_exp = $request->input('nominal_exp');
-        $exp->exp_desc = $request->input('exp_desc');
         $exp->date = $request->input('date');
+        $exp->account_id = $request->input('account_id');
+        $exp->exp_desc = $request->input('exp_desc');
+        $exp->nominal_exp = $request->input('nominal_exp');
         $exp->save();
-
+    
         $request->session()->flash('success', 'Data Berhasil Disimpan');
-        return redirect('/Expenditure');
+        return redirect('/expenditure');
     }
-
+    
     /**
      * Display the specified resource.
      *

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class NonfixedassetsController extends Controller
+class CashflowController extends Controller
 {
     /**
      * Display a listing of the resource.

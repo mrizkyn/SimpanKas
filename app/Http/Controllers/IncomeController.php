@@ -18,7 +18,7 @@ class IncomeController extends Controller
     {
         $incomes = Income::all();
         $accounts = Account::all();
-        $incomes = Income::with('Account')->paginate(5);
+        // $incomes = Income::with('Account');
         return view('Manager.Income.index', compact('incomes','accounts'));
         
     }
@@ -58,7 +58,7 @@ class IncomeController extends Controller
         $income->save();
 
         $request->session()->flash('success', 'Data Berhasil Disimpan');
-        return redirect('/Income');
+        return redirect('/income');
 
 
         

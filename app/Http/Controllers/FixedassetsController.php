@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Expenditure;
+use App\Models\Fixedasset;
 use Illuminate\Http\Request;
+use App\Models\Account;
 
 class FixedassetsController extends Controller
 {
@@ -13,7 +16,11 @@ class FixedassetsController extends Controller
      */
     public function index()
     {
-        //
+        $assets = Expenditure::whereHas('account', function ($account) {
+            $account->where('parent_id', 1);
+        })->get();
+        
+        return view('Manager.Aset.index', compact('assets'));
     }
 
     /**

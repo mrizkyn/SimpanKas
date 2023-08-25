@@ -1,7 +1,10 @@
 <?php
 
 use App\Http\Controllers\ExpenditureController;
+use App\Http\Controllers\FixedassetsController;
 use App\Http\Controllers\IncomeController;
+use App\Http\Controllers\ParsingController;
+use App\Http\Controllers\StatementController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DebtController;
@@ -31,32 +34,46 @@ Route::get('/', [DashboardController::class, 'index']);
 
 
 //Income
-Route::get('Income', [IncomeController::class, 'index']);
-Route::get('Income/create', [IncomeController::class, 'create']);
-Route::post('Income/store', [IncomeController::class, 'store']);
+Route::get('income', [IncomeController::class, 'index']);
+Route::get('income/create', [IncomeController::class, 'create']);
+Route::post('income/store', [IncomeController::class, 'store']);
 
 //Expenditure
-Route::get('Expenditure', [ExpenditureController::class, 'index']);
-Route::get('Expenditure/create', [ExpenditureController::class, 'create']);
-Route::post('Expenditure/store', [ExpenditureController::class, 'store']);
+Route::get('expenditure', [ExpenditureController::class, 'index']);
+Route::get('expenditure/create', [ExpenditureController::class, 'create']);
+Route::post('expenditure/store', [ExpenditureController::class, 'store']);
+Route::get('/expenditure/getnoakun', [ParsingController::class, 'getNoAkunOptions']);
+route::get('/get-child',[ExpenditureController::class,'getChildAccounts'])->name('get.child');
+Route::get('/check-code', [ExpenditureController::class, 'checkCode'])->name('check.code');
+
 
 //Debt
-Route::get('Debt', [DebtController::class, 'index']);
-Route::post('Debt/store', [DebtController::class, 'store']);
+Route::get('debt', [DebtController::class, 'index']);
+Route::post('debt/store', [DebtController::class, 'store']);
 Route::post('/debt/{id}/toggle-status', [DebtController::class, 'toggleStatus'])->name('debt.toggleStatus');
 
 //Receivables
-Route::get('Receivables', [ReceivablesController::class, 'index']);
-Route::post('Receivables/store', [ReceivablesController::class, 'store']);
+Route::get('receivables', [ReceivablesController::class, 'index']);
+Route::post('receivables/store', [ReceivablesController::class, 'store']);
 Route::post('/Receivables/{id}/toggle-status', [ReceivablesController::class, 'toggleStatus'])->name('Receive.toggleStatus');
 
 //Account
-Route::get('Account', [AccountController::class, 'index']);
-Route::get('Account/create', [AccountController::class, 'create']);
-Route::POST('Account/store', [AccountController::class, 'store']);
-Route::POST('Account/update/{id}', [AccountController::class, 'update'])->name('account.update');
+Route::get('account', [AccountController::class, 'index'])->name('accounts.index');
+Route::POST('account/store', [AccountController::class, 'store'])->name('account.store');
+Route::POST('account/update/{id}', [AccountController::class, 'update'])->name('account.update');
+Route::get('/account/create', [AccountController::class, 'create'])->name('account.create');
+route::get('/get-child',[ParsingController::class,'getChildAccounts'])->name('get.child');
+Route::get('/get/last_code', [ParsingController::class, 'checkCodeExists'])->name('get.last_code');
+Route::get('/check-code', [ParsingController::class, 'checkCode'])->name('check.code');
 
 
+//Assets
+route::get('asset', [FixedassetsController::class, 'index']);
+
+
+//Report
+
+route::get('/statement', [StatementController::class,'index'])->name('statement.index');
 
 
 

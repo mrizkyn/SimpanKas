@@ -1,10 +1,13 @@
-<head>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Sisipkan file CSS dan JavaScript Bootstrap -->
     <style>
-        .table-container {
+
+.card {
+            margin-top: 100px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            padding: 0px;
+            margin-bottom: 200px
+        }
+         .table-container {
             margin-top: 5cm;
         }
 
@@ -16,9 +19,6 @@
             width: 60px;
         }
 
-        body {
-            height: 100vh;
-        }
 
         .card-status {
             width: 90px;
@@ -40,18 +40,20 @@
             background-color: #dc3545;
             color: #ffffff;
         }
+        body {
+        height: 100vh;
+        }
     </style>
-</head>
 
-<body style="background-color: rgba(0, 131, 116, 0.9)">
     @extends('layouts.app')
+
+<body style="  background-color: rgba(0, 131, 116, 0.9)">
+    
 
     @section('content')
 
-    <div class="container-fluid table-container rounded" style="background-color: rgb(255, 255, 255)">
-        <div class="row mb-3">
-            <div class="col-md-6 mt-3">
-                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#tambahDataModal">Tambah Data</button>
+    <div class="container">
+      
 
                 <div class="modal fade" id="tambahDataModal" tabindex="-1" aria-labelledby="tambahDataModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
@@ -73,15 +75,32 @@
                                             {{ session('success') }}
                                         </div>
                                     @endif
-                                    <form id="formTambahData" action="/Debt/store" method="POST">
+                                    <form id="formTambahData" action="/debt/store" method="POST">
                                         @csrf
                 
+                                        {{-- <div class="mb-3">
+                                            <label for="" class="form-label">Jenis Akun</label>
+                                            <input type="text" class="form-control" id="" name="" value="200 - Hutang" readonly>
+                                        </div> --}}
+                                        
+                                         <div class="mb-3">
+                                           <label for="date" class="form-label">Tanggal</label>
+                                            <input type="date" class="form-control @error('date') is-invalid @enderror" id="date" name="date" value="{{ date('Y-m-d') }}" placeholder="Tanggal">
+                                            <div class="@error('date') @enderror invalid-feedback">
+                                              @foreach ($errors->get('date') as $message)
+                                                  {{ $message }}
+                                               @endforeach
+                                            </div>
+                                        </div>
+                                       
                                         <div class="mb-3">
                                             <label for="account_id" class="form-label">No Akun</label>
-                                            <select class="form-control @error('account_id') is-invalid @enderror" id="account_id"
-                                                name="account_id">
+                                            <select class="form-control @error('account_id') is-invalid @enderror" id="account_id" name="account_id" placeholder="Pilih No Akun">
+                                                <option value="Pilih No Akun"></option>
                                                 @foreach ($accounts as $account)
-                                                    <option value="{{ $account->id }}">{{ $account->code_name }}</option>
+                                                    @if ($account->code_name == 200) 
+                                                        <option value="{{ $account->id }}">{{ $account->code_name }} - {{ $account->account_name }}</option>
+                                                    @endif
                                                 @endforeach
                                             </select>
                                             <div class="@error('account_id') @enderror invalid-feedback">
@@ -90,7 +109,15 @@
                                                 @endforeach
                                             </div>
                                         </div>
-                
+                                        
+                                            
+                                    <div class="mb-3">
+                                        <label for="account_name" class="form-label">Nama Akun</label>
+                                        <input type="text" class="form-control" id="account_name" name="account_name" readonly>
+                                        <input type="hidden" id="selected_account_id" name="selected_account_id">
+                                    </div>
+                                    
+            
                                         <div class="mb-3">
                                             <label for="creditor" class="form-label">Kreditur</label>
                                             <input type="text" class="form-control @error('creditor') is-invalid @enderror"
@@ -136,84 +163,83 @@
                                             </div>
                                         </div>
 
-                                        <div class="mb-3">
-                                            <label for="date" class="form-label">Tanggal</label>
-                                            <input type="date" class="form-control @error('date') is-invalid @enderror" id="date" name="date" value="{{ date('Y-m-d') }}" placeholder="Tanggal">
-                                            <div class="@error('date') @enderror invalid-feedback">
-                                                @foreach ($errors->get('date') as $message)
-                                                    {{ $message }}
-                                                @endforeach
-                                            </div>
-                                        </div>
-
 
                                 </div>
                                 <div class="modal-footer">
-                                    <button id="btnSimpan" type="submit" class="btn btn-primary">Simpan</button>
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                    <button id="btnSimpan" type="submit" class="btn btn-success">Simpan</button>
+                                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Tutup</button>
                                 </div>
                                 </form>
                             </div>
                         </div>
-                    </div>
-                </div>
+                
                 
             </div>
-            <div class="col-md-6 mt-3">
+           
+        </div>
+        
+        <div class="container-fluid">
+            <div class="card">
+                <div class="card-body">
+                    <h2><b>Catat Hutang</b></h2>
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#tambahDataModal">Tambah Data</button>
+                    <br>
+                    <br>
+                    <div class="table-responsive nowrap" style="width:100%">
+                <table id="accountsTable" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Tanggal</th>
+                            <th>No Akun</th>
+                            <th>Nama Akun</th>
+                            <th>Kreditor</th>
+                            <th>Nominal Hutang</th>
+                            <th>Tanggal Jatuh Tempo</th>
+                            <th>Deskripsi Hutang</th>
+                            <th>Status</th>
+                            <th>Pencatat</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-striped">
+                        @foreach ($debts as $debt)
+                        <tr>
+                            <th scope="row">{{ $loop->iteration }}</th>
+                            <td>{{ $debt->date }}</td>
+                            <td>{{ $debt->Account->code_name }}</td>
+                            <td>{{ $debt->Account->account_name }}</td>
+                            <td>{{ $debt->creditor }}</td>
+                            <td>Rp {{ number_format($debt->debt_nominal, 0, ',', '.') }}</td> 
+                            <td>{{ $debt->due_date }}</td>
+                            <td>{{ $debt->debt_desc }}</td>
+                            <td>
+                                <a href="{{ route('debt.toggleStatus', $debt->id) }}" class="card-link" onclick="event.preventDefault(); document.getElementById('toggle-status-form-{{ $debt->id }}').submit();">
+                                    <div class="card-status {{ $debt->status === 'lunas' ? 'bg-lunas' : 'bg-belum-lunas' }}">
+                                        {{ $debt->status }}
+                                    </div>
+                                </a>
+                                <form id="toggle-status-form-{{ $debt->id }}" action="{{ route('debt.toggleStatus', $debt->id) }}" method="POST" style="display: none;">
+                                    @csrf
+                                </form>
+                            </td>
+                            <td></td>
+                        </tr>
+                        @endforeach
     
+                    </tbody>
+                   
+    
+                </table>
+            </div>
+            </div>
             </div>
         </div>
-        <h2><b>Catat Hutang</b></h2>
-        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>No Akun</th>
-                        <th>Kreditor</th>
-                        <th>Nominal Hutang</th>
-                        <th>Tanggal Jatuh Tempo</th>
-                        <th>Deskripsi Hutang</th>
-                        <th>Tanggal</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody class="table-striped">
-                    @foreach ($debts as $debt)
-                    <tr>
-                        <th scope="row">{{ $loop->iteration }}</th>
-                        <td>{{ $debt->Account->code_name }}</td>
-                        <td>{{ $debt->creditor }}</td>
-                        <td>{{ $debt->debt_nominal }}</td>
-                        <td>{{ $debt->due_date }}</td>
-                        <td>{{ $debt->debt_desc }}</td>
-                        <td>{{ $debt->date }}</td>
-                        <td>
-                            <a href="{{ route('debt.toggleStatus', $debt->id) }}" class="card-link" onclick="event.preventDefault(); document.getElementById('toggle-status-form-{{ $debt->id }}').submit();">
-                                <div class="card-status {{ $debt->status === 'lunas' ? 'bg-lunas' : 'bg-belum-lunas' }}">
-                                    {{ $debt->status }}
-                                </div>
-                            </a>
-                            <form id="toggle-status-form-{{ $debt->id }}" action="{{ route('debt.toggleStatus', $debt->id) }}" method="POST" style="display: none;">
-                                @csrf
-                            </form>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td colspan="4">
-                            {{  $debts->links('pagination::bootstrap-4')}}
-                        </td>
-                    </tr>
-                </tfoot>
-
-            </table>
         </div>
-    </div>
+    
+
 
     @endsection
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     @if (session('success'))
     <script>
@@ -222,31 +248,24 @@
     @endif
 
     <script>
-        document.getElementById("searchButton").addEventListener("click", function() {
-            var input = document.getElementById("searchInput").value.toLowerCase();
-            var rows = document.getElementsByTagName("tr");
-    
-            for (var i = 0; i < rows.length; i++) {
-                var cells = rows[i].getElementsByTagName("td");
-                var match = false;
-    
-                for (var j = 0; j < cells.length; j++) {
-                    var cellText = cells[j].textContent.toLowerCase();
-    
-                    if (cellText.includes(input)) {
-                        match = true;
-                        break;
-                    }
-                }
-    
-                if (match) {
-                    rows[i].style.display = "";
-                } else {
-                    rows[i].style.display = "none";
-                }
-            }
+        $(document).ready(function () {
+            $('#accountsTable').DataTable();
         });
-    </script>
-    
+        </script>
+        
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                var accountSelect = document.getElementById('account_id');
+                var accountNameInput = document.getElementById('account_name');
+                
+                accountSelect.addEventListener('change', function() {
+                    var selectedOption = accountSelect.options[accountSelect.selectedIndex];
+                    var accountName = selectedOption.text.split(" - ")[1];
+                    
+                    accountNameInput.value = accountName;
+                    document.getElementById('selected_account_id').value = selectedOption.value;
+                });
+            });
+        </script>
         
 </body>
