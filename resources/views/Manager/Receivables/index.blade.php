@@ -37,7 +37,7 @@
             color: #ffffff;
         }
 
-        .bg-tidak-lunas {
+        .bg-belum-lunas {
             background-color: #dc3545;
             color: #ffffff;
         }
@@ -48,8 +48,7 @@
 
 
 <body style="background-color: rgba(0, 131, 116, 0.9)">
-    @extends('layouts.app')
-
+    @extends('layouts.frontend.app')
     @section('content')
 
     <div class="container">
@@ -76,7 +75,7 @@
                                 {{ session('success') }}
                             </div>
                         @endif
-                        <form id="formTambahData" action="/Receivables/store" method="POST">
+                        <form id="formTambahData" action="/receivables/store" method="POST">
                             @csrf
                             <div class="mb-3">
                                 <label for="" class="form-label">Jenis Akun</label>
@@ -96,7 +95,7 @@
                                 <select class="form-control @error('account_id') is-invalid @enderror" id="account_id" name="account_id" placeholder="Pilih No Akun">
                                     <option value="Pilih No Akun"></option>
                                     @foreach ($accounts as $account)
-                                        @if ($account->parent_id == 300) 
+                                        @if ($account->parent_id == 3) 
                                             <option value="{{ $account->id }}">{{ $account->code_name }} - {{ $account->account_name }}</option>
                                         @endif
                                     @endforeach
@@ -204,7 +203,7 @@
                 <td>{{ $r->account->code_name }}</td>
                 <td>{{ $r->account->account_name }}</td>
                 <td>{{ $r->debt_recipient }}</td>
-                <td>Rp {{ number_format($r->receive, 0, ',', '.') }}</td> 
+                <td>Rp {{ number_format($r->receive_nominal, 0, ',', '.') }}</td> 
                 <td>{{ $r->payment_date }}</td>
                 <td>{{ $r->receive_desc }}</td>
                 <td>
@@ -224,6 +223,7 @@
        
 
     </table>
+    <script>setMobileTable('table')</script>
 </div>
 </div>
 </div>

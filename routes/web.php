@@ -1,15 +1,21 @@
 <?php
 
+use App\Http\Controllers\DummycashflowController;
+use App\Http\Controllers\DummystatementController;
 use App\Http\Controllers\ExpenditureController;
 use App\Http\Controllers\FixedassetsController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\IncomeController;
 use App\Http\Controllers\ParsingController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\StatementController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DebtController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\ReceivablesController ;
+use App\Http\Controllers\UserController ;
 
 /*
 |--------------------------------------------------------------------------
@@ -73,8 +79,20 @@ route::get('asset', [FixedassetsController::class, 'index']);
 
 //Report
 
-route::get('/statement', [StatementController::class,'index'])->name('statement.index');
+Route::post('/statement', [StatementController::class, 'index'])->name('statement.index');
+Route::get('/statement', [StatementController::class, 'index'])->name('statement.post');
+Route::get('/laba-rugi', [DummystatementController::class, 'index']);
+Route::get('/arus-kas', [DummycashflowController::class, 'index']);
 
 
 
+Auth::routes();
+   
+Route::get('/home', [HomeController::class,'index'])->name('home');
+   
+Route::group(['middleware' => ['auth']], function() {
+    Route::resource('roles', RoleController::class);
+    Route::resource('users', UserController::class);
+    Route::resource('products', ProductController::class);
 
+});

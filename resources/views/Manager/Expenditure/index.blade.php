@@ -29,7 +29,7 @@
 </head>
 
 <body style="background-color: rgba(0, 131, 116, 0.9)">
-    @extends('layouts.app')
+    @extends('layouts.frontend.app')
 
     @section('content')
 
@@ -132,8 +132,8 @@
                                     <th>Tanggal</th>
                                     <th>No Akun</th>
                                     <th>Nama Akun</th>
-                                    <th>Total Pengeluaran/Beban</th>
-                                    <th>Deskripsi Pengeluaran/Beban</th>
+                                    <th>Nominal</th>
+                                    <th>Deskripsi</th>
                                     <th>Pencatat</th>
                                 </tr>
                             </thead>
@@ -145,11 +145,13 @@
                                     <td>{{ $exp->Account->code_name }}</td>
                                     <td>{{ $exp->Account->account_name }}</td>
                                     <td>Rp {{ number_format($exp->nominal_exp, 0, ',', '.') }}</td> 
-                                    <td></td>
+                                    <td>{{ $exp->exp_desc }}</td>
+                                    <td>rizky</td>
                                 </tr>
                                 @endforeach
                             </tbody>
                         </table>
+                        <script>setMobileTable('table')</script>
                     </div>
                 </div>
             </div>
@@ -166,6 +168,11 @@
     </script>
     @endif
 
+    <script>
+        $(document).ready(function () {
+            $('#accountsTable').DataTable();
+        });
+        </script> 
     <script>
         $(document).ready(function () {
             $('#parent_account').change(function () {
@@ -195,6 +202,7 @@
             });
         
                  </script>
+
     
 
 

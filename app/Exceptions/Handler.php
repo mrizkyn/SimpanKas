@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+use Illuminate\Auth\Access\AuthorizationException; // Tambahkan ini
 
 class Handler extends ExceptionHandler
 {
@@ -15,6 +16,15 @@ class Handler extends ExceptionHandler
     protected $dontReport = [
         //
     ];
+
+    public function render($request, Throwable $exception)
+    {
+        if ($exception instanceof AuthorizationException) { // Perubahan di sini
+            return response()->json(['message' => 'User does not have permission for this page access.'], 403); // Kode status 403 menunjukkan akses ditolak
+        }
+ 
+        return parent::render($request, $exception);
+    }
 
     /**
      * A list of the inputs that are never flashed for validation exceptions.

@@ -60,7 +60,7 @@ class ReceivablesController extends Controller
         $r->save();
 
         $request->session()->flash('success', 'Data Berhasil Disimpan');
-        return redirect('/Receivables');
+        return redirect('/receivables');
 
     }
 

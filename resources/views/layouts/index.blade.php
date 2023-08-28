@@ -2,7 +2,7 @@
 <body>
 
  
- @include('layouts.app')
+  @include('layouts.frontend.app')
   <!-- End Header -->
 
   <!-- ======= Hero Section ======= -->
@@ -18,6 +18,24 @@
   }
 </style>
 
+
+<div class="card">
+  <div class="card-body">
+    Kas Masuk
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-body">
+    Kas Keluar
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-body">
+    Total Pendapatan
+  </div>
+</div>
      
           <div class="d-flex justify-content-center justify-content-lg-start">
            
@@ -86,7 +104,8 @@
 
     </div>
   </section>
-  <!-- End Hero Section -->
+
+<!-- End Hero Section -->
 
 </body>
 

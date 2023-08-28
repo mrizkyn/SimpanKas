@@ -45,8 +45,7 @@
         }
     </style>
 
-    @extends('layouts.app')
-
+@extends('layouts.frontend.app')
 <body style="  background-color: rgba(0, 131, 116, 0.9)">
     
 
@@ -230,6 +229,7 @@
                    
     
                 </table>
+                <script>setMobileTable('table')</script>
             </div>
             </div>
             </div>

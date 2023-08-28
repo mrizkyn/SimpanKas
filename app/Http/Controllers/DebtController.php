@@ -60,7 +60,7 @@ class DebtController extends Controller
         $debt->save();
 
         $request->session()->flash('success', 'Data Berhasil Disimpan');
-        return redirect('/Debt');
+        return redirect('/debt');
 
     }
 

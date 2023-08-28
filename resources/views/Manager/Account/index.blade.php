@@ -24,7 +24,7 @@
         }
 </style>
 
-@extends('layouts.app')
+@extends('layouts.frontend.app')
 
 <body style=" background-color: rgba(0, 131, 116, 0.9);">
     
@@ -103,9 +103,8 @@
                     </tr>
                     @endforeach
                 </tbody>
-               
-
             </table>
+            <script>setMobileTable('table')</script>
         </div>
         </div>
         </div>
@@ -114,11 +113,6 @@
     @endsection
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     
-    @if (session('success'))
-    <script>
-        alert('{{ session('success') }}');
-    </script>
-    @endif
 
     <script>
         $(document).ready(function () {

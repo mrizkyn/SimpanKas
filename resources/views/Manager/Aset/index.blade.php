@@ -3,6 +3,10 @@
 
   <!-- Sisipkan file CSS dan JavaScript Bootstrap -->
   <style>
+    .tex-rigt {
+        text-align: right;
+       
+    }
        .card {
           margin-top: 100px;
           box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
@@ -31,7 +35,7 @@
 </head>
 
 <body style="background-color: rgba(0, 131, 116, 0.9)">
-  @extends('layouts.app')
+    @extends('layouts.frontend.app')
 
   @section('content')
 
@@ -62,14 +66,13 @@
                   <td>{{ $asset->date }}</td>
                   <td>{{ $asset->Account->code_name }}</td>
                   <td>{{ $asset->Account->account_name }}</td>
-                  <td>Rp {{ number_format($asset->nominal_exp, 0, ',', '.') }}</td> 
+                  <td class="text-rigt">Rp {{ number_format($asset->nominal_exp, 0, ',', '.') }}</td> 
                   <td>{{ $asset->exp_desc }}</td>
               </tr>
               @endforeach
           </tbody>
-       
-
   </table>
+  <script>setMobileTable('table')</script>
 </div>
 </div>
 </div>
@@ -104,3 +107,4 @@
           });
       });
   </script>
+  

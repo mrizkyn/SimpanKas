@@ -44,6 +44,12 @@ class Kernel extends HttpKernel
             'throttle:api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
+
+        // Tambahkan grup middleware kustom Anda di sini
+        'custom' => [
+            \Spatie\Permission\Middlewares\RoleMiddleware::class,
+            // Anda dapat menambahkan middleware lain yang diperlukan di sini
+        ],
     ];
 
     /**
@@ -63,5 +69,6 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'user' => \app\Http\Controllers\UserController::class,
     ];
 }

@@ -4,6 +4,7 @@
 
     <!-- Sisipkan file CSS dan JavaScript Bootstrap -->
     <style>
+
         .card {
             margin-top: 100px;
             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
@@ -13,7 +14,6 @@
         .table-container {
             margin-top: 5cm;
         }
-
         .btn-group .btn {
             margin-right: 5px;
         }
@@ -30,11 +30,11 @@
 </head>
 
 <body style="background-color: rgba(0, 131, 116, 0.9)">
-    @extends('layouts.app')
+    @extends('layouts.frontend.app')
 
     @section('content')
 
-    <div class="container-fluid table-container rounded" style="background-color: rgb(255, 255, 255)">
+    <div class="container">
 
                 <div class="modal fade" id="tambahDataModal" tabindex="-1" aria-labelledby="tambahDataModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
@@ -45,17 +45,7 @@
                             </div>
                             <div class="modal-body">
                                 <div class="mb-3">
-                                    @if ($errors->any())
-                                        <div class="alert alert-danger">
-                                            Validation Error!
-                                        </div>
-                                    @endif
-                
-                                    @if (session('success'))
-                                        <div class="alert alert-success">
-                                            {{ session('success') }}
-                                        </div>
-                                        @endif
+                                  
                                         <form id="formTambahData" action="/income/store" method="POST">
                                             @csrf
                                             
@@ -78,7 +68,7 @@
                                                 <select class="form-control @error('account_id') is-invalid @enderror" id="account_id" name="account_id">
                                                     <option value="Pilih No Akun"></option>
                                                     @foreach ($accounts as $account)
-                                                        @if ($account->code_name == 400) 
+                                                        @if ($account->parent_id == 4) 
                                                             <option value="{{ $account->id }}">{{ $account->code_name }} - {{ $account->account_name }}</option>
                                                         @endif
                                                     @endforeach
@@ -136,6 +126,17 @@
         <div class="container-fluid">
             <div class="card">
                 <div class="card-body">
+                    @if ($errors->any())
+                    <div class="alert alert-danger">
+                        Data Yang Anda Masukan Tidak Lengkap!
+                    </div>
+                @endif
+
+                @if (session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                    @endif
                     <h2><b>Pendapatan</b></h2>
                     <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#tambahDataModal">Tambah Data</button>
                     <br>
@@ -162,7 +163,7 @@
                         <td>{{ $income->Account->account_name }}</td>
                         <td>{{ $income->descrription }}</td>
                         <td>Rp {{ number_format($income->total, 0, ',', '.') }}</td>
-                        <td></td>
+                        <td>Rizky</td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -171,6 +172,7 @@
                 </tfoot>
 
             </table>
+            <script>setMobileTable('table')</script>
         </div>
     </div>
     </div>
@@ -180,11 +182,7 @@
     @endsection
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    @if (session('success'))
-    <script>
-        alert('{{ session('success') }}');
-        </script>
-    @endif
+
 
     <script>
         $(document).ready(function () {
