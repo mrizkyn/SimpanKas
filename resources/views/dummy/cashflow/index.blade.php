@@ -46,7 +46,7 @@
   </head>
   
   <body style="background-color: rgba(0, 131, 116, 0.9)">
-    @extends('layouts.bootstrap')
+    @extends('layouts.frontend.app')
   
     @section('content')
   
@@ -87,75 +87,58 @@
                     <table id="accountsTable" class="table " style="font-size: 12px;">
                         <thead>
                             <tr>
-                                <center><h3 style="color: white">Laporan Arus Kas</h3></center>
+                                <center><h3 style="color: white">Laporan Posisi Keuangan</h3></center>
                                 <center><p style="color: white"> 1 Januari 2022 s.d 31 Desember 2022 </p></center>
                             </tr>
                             <tr>
-                                <th >Arus Kas dari Aktivitas Operasi:</th>
+                                <th >Aset</th>
                                 <th ></th> 
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td style="background-color: rgb(92, 214, 255);" >Kas diterima oleh pelanggan:</td>
-                                <td style="background-color: rgb(92, 214, 255);" class="text-right">Rp 583,835,000</td>
+                                <td style="background-color: rgb(92, 214, 255);" ><b>Kas</b></td>
+                                <td style="background-color: rgb(92, 214, 255);" class="text-right">Rp 299,285,000</td>
+                            </tr>
+                        
+                            <tr>
+                                <td style="background-color: rgb(92, 214, 255);" >Piutang</td>
+                                <td style="background-color: rgb(92, 214, 255);" class="text-right">Rp 3,000,000</td>
+                            </tr>
+
+                            <tr>
+                                <td style="background-color: rgb(92, 214, 255);" ><b>Jumlah Total Aset</b></td>
+                                <td style="background-color: rgb(92, 214, 255);" class="text-right"><b> 302,285,000</b></td>
                             </tr>
                             <tr>
-                                <td>Dikurang :</td>
-                                <td></td>
+                                <td style="background-color: rgb(255, 255, 255);" ><b>Liabilitas</b></td>
+                                <td style="background-color: rgb(255, 255, 255);" class="text-right"></td>
                             </tr>
                             <tr>
-                                <td style="background-color: rgb(92, 214, 255);" >Pembelian pakan:</td>
-                                <td style="background-color: rgb(92, 214, 255);" class="text-right">(Rp 242,250,000)</td>
+                                <td style="background-color: rgb(92, 214, 255);" >Utang Usaha:</td>
+                                <td style="background-color: rgb(92, 214, 255);" class="text-right">(Rp 3,000,000)</td>
                             </tr>
                             <tr>
-                                <td style="background-color: rgb(92, 214, 255);" >Pembelian bibit:</td>
-                                <td style="background-color: rgb(92, 214, 255);" class="text-right">(Rp 30,800,000)</td>
+                                <td style="background-color: rgb(92, 214, 255);" ><b>Jumlah Liabilitas :</b></td>
+                                <td style="background-color: rgb(92, 214, 255);" class="text-right"><b>(Rp 3,000,000)</b></td>
                             </tr>
                             <tr>
-                                <td style="background-color: rgb(92, 214, 255);" >Beban Gaji:</td>
-                                <td style="background-color: rgb(92, 214, 255);" class="text-right">(Rp 1,000,000)</td>
+                                <td style="background-color: rgb(255, 255, 255);" ><b>Ekuitas</b></td>
+                                <td ></td>
                             </tr>
                             <tr>
-                                <td style="background-color: rgb(92, 214, 255);" >Beban Listrik:</td>
-                                <td style="background-color: rgb(92, 214, 255);" class="text-right">(Rp 100,000)</td>
+                                <td style="background-color: rgb(92, 214, 255);" ><b>Ekuitas Pemilik :</b></td>
+                                <td style="background-color: rgb(92, 214, 255);" class="text-right">Rp 299,285,000</td>
                             </tr>
                             <tr>
-                                <td style="background-color: rgb(92, 214, 255);" >Beban Lain-lain:</td>
-                                <td style="background-color: rgb(92, 214, 255);" class="text-right">(Rp 300,000)</td>
+                                <td style="background-color: rgb(92, 214, 255);" ><b>Jumlah Ekuitas:</b></td>
+                                <td style="background-color: rgb(92, 214, 255);" class="text-right">Rp 299,285,000</td>
                             </tr>
                             <tr>
-                                <td style="background-color: rgb(92, 214, 255);" ><b> Beban</b></td>
-                                <td  style="background-color: rgb(92, 214, 255);" class="text-right"><b><u>(Rp 274,450,000)</u></b></td>
+                                <td style="background-color: rgb(3, 160, 212);" ><b>Jumlah Liabilitas dan Ekuitas:</b></td>
+                                <td style="background-color: rgb(3, 160, 212);" class="text-right"><b> 302,285,000</b></td>
                             </tr>
-                            <tr>
-                                <td > <b>Arus Kas dari Aktivitas Operasi:</b></td>
-                                <td class="text-right">Rp 309,385,000</td>
-                            </tr>
-                            <tr>
-                                <td style="background-color: rgb(92, 214, 255);" >Pembuatan Budidaya:</td>
-                                <td style="background-color: rgb(92, 214, 255);" class="text-right">(Rp 100,000,000)</td>
-                            </tr>
-                            <tr>
-                                <td style="background-color: rgb(92, 214, 255);" >Pembelian Peralatan:</td>
-                                <td style="background-color: rgb(92, 214, 255);" class="text-right"><u>(Rp 200,000)</u></td>
-                            </tr>
-                            <tr>
-                                <td>Arus Kas dari Aktivitas Investasi:</td>
-                                <td style="background-color: rgb(92, 214, 255);" class="text-right" >(Rp 100,200,000)</td>
-                            </tr>
-                            <tr>
-                                <td ><b></b></td>
-                                <td class="text-right"><b>Rp 209,185,000</b></td>
-                            </tr>
-                            <tr>
-                                <td >Modal:</td>
-                                <td class="text-right">Rp 200,000,000</td>
-                            </tr>
-                            <tr>
-                                <td style="background-color: rgb(3, 160, 212);" ><b>Total Arus Kas:</b></td>
-                                <td style="background-color: rgb(3, 160, 212);" class="text-right"><b>Rp 409,185,000</b></td>
-                            </tr>
+                            
                         </tbody>
                     </table>
                     

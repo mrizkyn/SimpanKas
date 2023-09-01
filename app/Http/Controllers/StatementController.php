@@ -43,7 +43,7 @@ class StatementController extends Controller
             $totalBebanOperasional = DB::table('expenditures')
                 ->join('accounts', 'expenditures.account_id', '=', 'accounts.id')
                 ->whereBetween('expenditures.date', [$startMonth, $endMonth])
-                ->where('accounts.account_name', 'Beban Operasional')
+                ->where('accounts.parent_id')
                 ->sum('expenditures.nominal_exp');
     
             $totalBebanUtilitas = DB::table('expenditures')
@@ -79,7 +79,7 @@ class StatementController extends Controller
             ->join('accounts', 'incomes.account_id', '=', 'accounts.id')
             ->select('accounts.account_name', DB::raw('SUM(incomes.total) as total_inc'))
             ->whereBetween('incomes.date', [$startMonth, $endMonth])
-            ->where('accounts.parent_id', 4)
+            ->where('accounts.parent_id', 5)
             ->groupBy('accounts.account_name')
             ->get();
 
@@ -87,7 +87,7 @@ class StatementController extends Controller
             ->join('accounts', 'expenditures.account_id', '=', 'accounts.id')
             ->select('accounts.account_name', DB::raw('SUM(expenditures.nominal_exp) as total_exp'))
             ->whereBetween('expenditures.date', [$startMonth, $endMonth])
-            ->where('accounts.parent_id', 5)
+            ->where('accounts.parent_id', )
             ->groupBy('accounts.account_name')
             ->get();
     

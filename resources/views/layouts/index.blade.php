@@ -19,20 +19,20 @@
 </style>
 
 
-<div class="card">
+<div class="card mb-3" style="background-color: #00ff33)">
   <div class="card-body">
     Kas Masuk
   </div>
 </div>
 
-<div class="card">
-  <div class="card-body">
+<div class="card mb-3" style="background-color: #CC3A3D">
+  <div class="card-body" >
     Kas Keluar
   </div>
 </div>
 
-<div class="card">
-  <div class="card-body">
+<div class="card mb-3" style="background-color: #8AB8A2">
+  <div class="card-body" >
     Total Pendapatan
   </div>
 </div>

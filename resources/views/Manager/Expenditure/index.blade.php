@@ -68,8 +68,8 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="parent_account">Jenis Pengeluaran:</label>
-                                    <select class="form-control" id="parent_account" >
+                                    <label for="parent">Jenis Pengeluaran:</label>
+                                    <select class="form-control" id="parent" >
                                         <option value="">Pilih Jenis Pengeluaran</option>
                                         @foreach ($a as $account)
                                             <option value="{{ $account->id }}" data-code="{{ $account->code_name }}">{{ $account->code_name }} - {{ $account->account_name }}</option>
@@ -77,34 +77,40 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="child_account">No Akun:</label>
-                                    <select class="form-control" id="child_account" name="account_id" disabled>
+                                    <label for="child">No Akun:</label>
+                                    <select class="form-control" id="child"  disabled>
                                         <option value="" selected disabled>Pilih No Akun</option>
                                     </select>
                                 </div>
-                                                          
-                                <div class="mb-3">
-                                    <label for="exp_desc" class="form-label">Deskripsi Pengeluaran/Beban</label>
-                                    <input type="text" class="form-control @error('exp_desc') is-invalid @enderror" id="exp_desc"
-                                        name="exp_desc" value="{{ old('exp_desc') }}" placeholder="Deskripsi Pengeluaran">
-                                    <div class="@error('exp_desc') @enderror invalid-feedback">
-                                        @foreach ($errors->get('exp_desc') as $message)
-                                            {{ $message }}
-                                        @endforeach
-                                    </div>
+                                <div class="form-group">
+                                    <label for="sub">Sub Akun:</label>
+                                    <select class="form-control" id="sub" name="account_id" disabled>
+                                        <option value="" selected disabled>Pilih Sub Akun</option>
+                                    </select>
                                 </div>
-
+                                                          
+                                
                                 <div class="mb-3">
                                     <label for="nominal_exp" class="form-label">Total Pengeluaran/Beban</label>
                                     <input type="text" class="form-control @error('nominal_exp') is-invalid @enderror" id="nominal_exp"
-                                        name="nominal_exp" value="{{ old('nominal_exp') }}" placeholder="Total Pengeluaran">
+                                    name="nominal_exp" value="{{ old('nominal_exp') }}" placeholder="Total Pengeluaran">
                                     <div class="@error('nominal_exp') @enderror invalid-feedback">
                                         @foreach ($errors->get('nominal_exp') as $message)
                                             {{ $message }}
-                                        @endforeach
+                                            @endforeach
+                                        </div>
                                     </div>
-                                </div>
-
+                                    
+                                    <div class="mb-3">
+                                        <label for="exp_desc" class="form-label">Deskripsi Pengeluaran/Beban</label>
+                                        <input type="text" class="form-control @error('exp_desc') is-invalid @enderror" id="exp_desc"
+                                            name="exp_desc" value="{{ old('exp_desc') }}" placeholder="Deskripsi Pengeluaran">
+                                        <div class="@error('exp_desc') @enderror invalid-feedback">
+                                            @foreach ($errors->get('exp_desc') as $message)
+                                                {{ $message }}
+                                            @endforeach
+                                        </div>
+                                    </div>
 
                                 <div class="modal-footer">
                                     <button id="btnSimpan" type="submit" class="btn btn-success">Simpan</button>
@@ -173,38 +179,60 @@
             $('#accountsTable').DataTable();
         });
         </script> 
-    <script>
-        $(document).ready(function () {
-            $('#parent_account').change(function () {
-                var parent_id = $(this).val();
-                var parent_code = $(this).find(':selected').data('code');
-                var childAccountSelect = $('#child_account');
         
-                if (parent_id !== '') {
-                    $.ajax({
-                        url: '{{ route("get.child") }}',
-                        type: 'GET',
-                        data: { parent_id: parent_id },
-                        success: function (response) {
-                            childAccountSelect.empty().append('<option value="" selected disabled>Pilih Sub Akun</option>');
-                            childAccountSelect.append('<option value="non_select_sub">Tidak Memilih Sub</option>');
-                            $.each(response, function (index, childAccount) {
-                                childAccountSelect.append('<option value="' + childAccount.id + '">' + childAccount.code_name + ' - ' + childAccount.account_name + '</option>');
-                            });
-                            childAccountSelect.prop('disabled', false);
-                        }
+<script>
+    $(document).ready(function() {
+    $('#parent').on('change', function() {
+        var parent_id = $(this).val();
+        if(parent_id) {
+            $.ajax({
+                url: '/getChild',
+                type: 'GET',
+                data: {parent_id: parent_id},
+                dataType: 'json',
+                success: function(data) {
+                    $('#child').empty();
+                    $('#child').append('<option value="" selected disabled>Pilih No Akun</option>');
+                    $('#child').append('<option value="" selected>Tidak Memilih Sub Akun</option>');
+                    $.each(data, function(key, value) {
+                        $('#child').append('<option value="'+ value.id +'">'+ value.code_name + ' - ' + value.account_name +'</option>');
                     });
-                } else {
-                    childAccountSelect.empty().append('<option value="" selected disabled>Pilih Sub Akun</option>');
-                    childAccountSelect.prop('disabled', true);
+                    $('#child').prop('disabled', false);
                 }
             });
+        } else {
+            $('#child').empty();
+            $('#child').append('<option value="" selected disabled>Pilih No Akun</option>');
+            $('#child').prop('disabled', true);
+        }
+    });
+    $('#child').on('change', function() {
+        var parent_id = $(this).val();
+        if(parent_id) {
+            $.ajax({
+                url: '/getChild',
+                type: 'GET',
+                data: {parent_id: parent_id},
+                dataType: 'json',
+                success: function(data) {
+                    $('#sub').empty();
+                    $('#sub').append('<option value="" selected disabled>Pilih No Akun</option>');
+                    $('#sub').append('<option value="" selected>Tidak Memilih Sub Akun</option>');
+                    $.each(data, function(key, value) {
+                        $('#sub').append('<option value="'+ value.id +'">'+ value.code_name + ' - ' + value.account_name +'</option>');
+                    });
+                    $('#sub').prop('disabled', false);
+                }
             });
-        
-                 </script>
+        } else {
+            $('#sub').empty();
+            $('#sub').append('<option value="" selected disabled>Pilih No Akun</option>');
+            $('#sub').prop('disabled', true);
+        }
+    });
+});
 
-    
-
+</script>
 
 </body>
 </html>

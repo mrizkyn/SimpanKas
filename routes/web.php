@@ -28,9 +28,7 @@ use App\Http\Controllers\UserController ;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
 
 
 
@@ -48,9 +46,10 @@ Route::post('income/store', [IncomeController::class, 'store']);
 Route::get('expenditure', [ExpenditureController::class, 'index']);
 Route::get('expenditure/create', [ExpenditureController::class, 'create']);
 Route::post('expenditure/store', [ExpenditureController::class, 'store']);
-Route::get('/expenditure/getnoakun', [ParsingController::class, 'getNoAkunOptions']);
-route::get('/get-child',[ExpenditureController::class,'getChildAccounts'])->name('get.child');
+route::get('/getChild',[ExpenditureController::class,'getChild']);
+route::get('/getChild',[ParsingController::class,'getChild']);
 Route::get('/check-code', [ExpenditureController::class, 'checkCode'])->name('check.code');
+route::get('/getSub',[ExpenditureController::class,'getSub']);
 
 
 //Debt

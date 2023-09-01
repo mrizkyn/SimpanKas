@@ -68,7 +68,7 @@
                                                 <select class="form-control @error('account_id') is-invalid @enderror" id="account_id" name="account_id">
                                                     <option value="Pilih No Akun"></option>
                                                     @foreach ($accounts as $account)
-                                                        @if ($account->parent_id == 4) 
+                                                        @if ($account->parent_id == 5) 
                                                             <option value="{{ $account->id }}">{{ $account->code_name }} - {{ $account->account_name }}</option>
                                                         @endif
                                                     @endforeach

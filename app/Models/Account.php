@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Account extends Model
 {
    
-    protected $fillable = ['parent_id', 'code', 'name'];
+    protected $fillable = ['parent_id', 'code_name', 'account_name'];
     
     protected $table = 'accounts';
 

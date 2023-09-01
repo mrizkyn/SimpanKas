@@ -22,6 +22,13 @@ class ParsingController extends Controller
         return response()->json(['exists' => $exists]);
     }
 
+    public function getChild(Request $request)
+    {
+        $parent_id = $request->input('parent_id');
+        $childAccounts = Account::where('parent_id', $parent_id)->whereIn('parent_id', [6])->get();
+        return response()->json($childAccounts);
+    }
+
 
 
 }

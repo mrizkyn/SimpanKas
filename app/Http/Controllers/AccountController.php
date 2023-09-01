@@ -40,12 +40,29 @@ class AccountController extends Controller
      */
     public function store(Request $request)
     {
+        $validatedData = $request->validate([
+        'code_name' => 'required|unique:accounts',
+        'account_name' => 'required',
+        'parent_id' => 'nullable|exists:accounts,id',
+        'child_account' => 'nullable|exists:accounts,id',
+        'parent_account' => 'nullable|exists:accounts,id',
+        
+    ]);
         
         $account = new Account;
         $account->parent_id = $request->input('parent_id');
         $account->code_name = $request->input('code_name');
         $account->account_name = $request->input('account_name');
+        if (!empty($validatedData['child_account']) && $validatedData['child_account'] != 'non_select_sub') {
+            $childAccount = Account::find($validatedData['child_account']);
+            $account->parent_id = $childAccount->id;
+        } elseif (!empty($validatedData['child_account'])) {
+            $parent_account = Account::find($validatedData['parent_account']);
+            $account->parent_id = $parent_account->id;
+        }
+            
         $account->save();
+
 
 
 

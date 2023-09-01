@@ -46,7 +46,7 @@
   </head>
   
   <body style="background-color: rgba(0, 131, 116, 0.9)">
-    @extends('layouts.bootstrap')
+    @extends('layouts.frontend.app')
   
     @section('content')
   

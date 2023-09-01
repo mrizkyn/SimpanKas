@@ -221,7 +221,7 @@
                                     @csrf
                                 </form>
                             </td>
-                            <td></td>
+                            <td>Rizky</td>
                         </tr>
                         @endforeach
     

@@ -53,7 +53,7 @@
                     </div>
                     <div class="form-group">
                         <label for="child_account">Sub Akun:</label>
-                        <select class="form-control" id="child_account" name="child_id" disabled>
+                        <select class="form-control" id="child_account" name="child_account" disabled>
                             <option value="" selected disabled>Pilih Sub Akun</option>
                         </select>
                     </div>

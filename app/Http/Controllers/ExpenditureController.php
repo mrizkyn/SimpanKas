@@ -17,7 +17,7 @@ class ExpenditureController extends Controller
     {
         $expenditures = Expenditure::all();
         $accounts = Account::all();
-        $a = Account::whereIn('id', [1, 5])->get();
+        $a = Account::whereIn('id', [1,5])->get();
         // $expenditures = Expenditure::with('Account');
         return view('Manager.Expenditure.index', compact('expenditures','accounts','a'));
     }
@@ -29,12 +29,20 @@ class ExpenditureController extends Controller
      */
 
 
-     public function getChildAccounts(Request $request)
+     public function getChild(Request $request)
      {
          $parent_id = $request->input('parent_id');
-         $childAccounts = Account::where('parent_id', $parent_id)->where('parent_id',[1,5])->get();
+         $childAccounts = Account::where('parent_id', $parent_id)->whereIn('parent_id', [1, 5, 6])->get();
          return response()->json($childAccounts);
      }
+ 
+     public function getSub(Request $request)
+     {
+         $parent_id = $request->input('parent_id');
+         $subAccounts = Account::where('parent_id', $parent_id)->whereIn('parent_id', [6])->get();
+         return response()->json($subAccounts);
+     }
+     
      public function checkCode(Request $request)
      {
          $code = $request->input('code');
