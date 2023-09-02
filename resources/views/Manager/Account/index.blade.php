@@ -140,7 +140,7 @@
                             data: { parent_id: parent_id },
                             success: function (response) {
                                 childAccountSelect.empty().append('<option value="" selected disabled>Pilih Sub Akun</option>');
-                                childAccountSelect.append('<option value="non_select_sub">Tidak Memilih Sub</option>');
+                                childAccountSelect.append('<option value="">Tidak Memilih Sub</option>');
                                 $.each(response, function (index, childAccount) {
                                     childAccountSelect.append('<option value="' + childAccount.id + '">' + childAccount.code_name + ' - ' + childAccount.account_name + '</option>');
                                 });

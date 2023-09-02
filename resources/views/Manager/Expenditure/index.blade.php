@@ -49,11 +49,7 @@
                                 </div>
                             @endif
 
-                            @if (session('success'))
-                                <div class="alert alert-success">
-                                    {{ session('success') }}
-                                </div>
-                            @endif
+                         
                             <form id="formTambahData" action="/expenditure/store" method="POST">
                                 @csrf
                        
@@ -127,6 +123,11 @@
             <div class="card">
                 <div class="card-body">
                     <h2><b>Pengeluaran</b></h2>
+                    @if (session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                @endif
                     <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#tambahDataModal">Tambah Data</button>
                     <br>
                     <br>
@@ -168,11 +169,11 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    @if (session('success'))
+    {{-- @if (session('success'))
     <script>
         alert('{{ session('success') }}');
     </script>
-    @endif
+    @endif --}}
 
     <script>
         $(document).ready(function () {
