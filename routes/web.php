@@ -3,6 +3,7 @@
 use App\Http\Controllers\DummycashflowController;
 use App\Http\Controllers\DummystatementController;
 use App\Http\Controllers\ExpenditureController;
+use App\Http\Controllers\FinancialpositionController;
 use App\Http\Controllers\FixedassetsController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\IncomeController;
@@ -80,6 +81,8 @@ route::get('asset', [FixedassetsController::class, 'index']);
 
 Route::post('/statement', [StatementController::class, 'index'])->name('statement.index');
 Route::get('/statement', [StatementController::class, 'index'])->name('statement.post');
+Route::get('/financial-position', [FinancialpositionController::class, 'index'])->name('financial.post');
+Route::post('/financial-position', [FinancialpositionController::class, 'index'])->name('financial.index');
 Route::get('/laba-rugi', [DummystatementController::class, 'index']);
 Route::get('/arus-kas', [DummycashflowController::class, 'index']);
 

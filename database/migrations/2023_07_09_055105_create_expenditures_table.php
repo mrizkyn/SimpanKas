@@ -19,6 +19,9 @@ return new class extends Migration
             $table->bigInteger('nominal_exp');
             $table->string('exp_desc');
             $table->date('date');
+            $table->integer('asset_period')->nullable();
+            $table->integer('annual_dep')->nullable();
+            $table->integer('dep_month')->nullable();
 
             $table->timestamps();
         });

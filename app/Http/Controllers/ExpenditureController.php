@@ -17,7 +17,8 @@ class ExpenditureController extends Controller
     {
         $expenditures = Expenditure::all();
         $accounts = Account::all();
-        $a = Account::whereIn('id', [1,5])->get();
+        $a = Account::whereIn('id', [1,5
+        ])->get();
         // $expenditures = Expenditure::with('Account');
         return view('Manager.Expenditure.index', compact('expenditures','accounts','a'));
     }

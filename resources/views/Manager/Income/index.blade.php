@@ -1,8 +1,6 @@
 <head>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- Sisipkan file CSS dan JavaScript Bootstrap -->
     <style>
 
         .card {
@@ -68,7 +66,7 @@
                                                 <select class="form-control @error('account_id') is-invalid @enderror" id="account_id" name="account_id">
                                                     <option value="Pilih No Akun"></option>
                                                     @foreach ($accounts as $account)
-                                                        @if ($account->parent_id == 5) 
+                                                        @if ($account->parent_id == 4) 
                                                             <option value="{{ $account->id }}">{{ $account->code_name }} - {{ $account->account_name }}</option>
                                                         @endif
                                                     @endforeach

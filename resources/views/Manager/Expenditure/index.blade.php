@@ -85,13 +85,43 @@
                                     </select>
                                 </div>
                                                           
-                                
                                 <div class="mb-3">
                                     <label for="nominal_exp" class="form-label">Total Pengeluaran/Beban</label>
                                     <input type="text" class="form-control @error('nominal_exp') is-invalid @enderror" id="nominal_exp"
                                     name="nominal_exp" value="{{ old('nominal_exp') }}" placeholder="Total Pengeluaran">
                                     <div class="@error('nominal_exp') @enderror invalid-feedback">
                                         @foreach ($errors->get('nominal_exp') as $message)
+                                            {{ $message }}
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                
+                                <div class="mb-3">
+                                    <label for="asset_period" class="form-label">Masa Manfaat</label>
+                                    <input type="text" class="form-control @error('asset_period') is-invalid @enderror" id="asset_period"
+                                    name="asset_period" value="{{ old('asset_period') }}" placeholder="Total Pengeluaran">
+                                    <div class="@error('asset_period') @enderror invalid-feedback">
+                                        @foreach ($errors->get('asset_period') as $message)
+                                            {{ $message }}
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                <div class="mb-3">
+                                    <label for="annual_dep" class="form-label">Penyusutan Per-Tahun</label>
+                                    <input type="text" class="form-control @error('annual_dep') is-invalid @enderror" id="annual_dep"
+                                    name="annual_dep" value="{{ old('annual_dep') }}" placeholder="Total Pengeluaran">
+                                    <div class="@error('annual_dep') @enderror invalid-feedback">
+                                        @foreach ($errors->get('annual_dep') as $message)
+                                            {{ $message }}
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                <div class="mb-3">
+                                    <label for="dep_month" class="form-label">Penyusutan Per-Bulan</label>
+                                    <input type="text" class="form-control @error('dep_month') is-invalid @enderror" id="dep_month"
+                                    name="dep_month" value="{{ old('dep_month') }}" placeholder="Total Pengeluaran">
+                                    <div class="@error('dep_month') @enderror invalid-feedback">
+                                        @foreach ($errors->get('dep_month') as $message)
                                             {{ $message }}
                                             @endforeach
                                         </div>
@@ -123,11 +153,11 @@
             <div class="card">
                 <div class="card-body">
                     <h2><b>Pengeluaran</b></h2>
-                    @if (session('success'))
-                    <div class="alert alert-success">
-                        {{ session('success') }}
-                    </div>
-                @endif
+                       @if (session('success'))
+                                <div class="alert alert-success">
+                                    {{ session('success') }}
+                                </div>
+                            @endif
                     <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#tambahDataModal">Tambah Data</button>
                     <br>
                     <br>
@@ -169,11 +199,11 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    {{-- @if (session('success'))
+    @if (session('success'))
     <script>
         alert('{{ session('success') }}');
     </script>
-    @endif --}}
+    @endif
 
     <script>
         $(document).ready(function () {
@@ -233,6 +263,11 @@
     });
 });
 
+</script>
+
+
+<script>
+    
 </script>
 
 </body>

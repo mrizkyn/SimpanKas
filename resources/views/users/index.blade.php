@@ -51,10 +51,14 @@
       @endif
     </td>
     <td>
+      <div style="margin-right: 3px">
        <a class="btn btn-primary" href="{{ route('users.edit',$user->id) }}">Edit</a>
+      </div>
+      <div>
         {!! Form::open(['method' => 'DELETE','route' => ['users.destroy', $user->id],'style'=>'display:inline']) !!}
-            {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
+        {!! Form::submit('Delete', ['class' => 'btn btn-danger'],) !!}
         {!! Form::close() !!}
+      </div>
     </td>
   </tr>
 </tbody>

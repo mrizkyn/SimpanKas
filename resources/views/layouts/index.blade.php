@@ -1,4 +1,6 @@
-
+<head>
+  @laravelPWA
+</head>
 <body>
 
  
@@ -16,26 +18,29 @@
   .orange-dot {
     color: #f96f59;
   }
+  body {
+        height: 100vh;
+        }
 </style>
 
 
-<div class="card mb-3" style="background-color: #00ff33)">
-  <div class="card-body">
-    Kas Masuk
-  </div>
-</div>
+      {{-- <div class="card mb-3" style="background-color: #00ff33)">
+        <div class="card-body">
+          Kas Masuk
+        </div>
+      </div>
 
-<div class="card mb-3" style="background-color: #CC3A3D">
-  <div class="card-body" >
-    Kas Keluar
-  </div>
-</div>
+      <div class="card mb-3" style="background-color: #CC3A3D">
+        <div class="card-body" >
+          Kas Keluar
+        </div>
+      </div>
 
-<div class="card mb-3" style="background-color: #8AB8A2">
-  <div class="card-body" >
-    Total Pendapatan
-  </div>
-</div>
+      <div class="card mb-3" style="background-color: #8AB8A2">
+        <div class="card-body" >
+          Total Pendapatan
+        </div>
+      </div> --}}
      
           <div class="d-flex justify-content-center justify-content-lg-start">
            
@@ -110,3 +115,10 @@
 </body>
 
 </html>
+<script>
+  if (!navigator.serviceWorker.controller) {
+      navigator.serviceWorker.register("/sw.js").then(function (reg) {
+          console.log("Service worker has been registered for scope: " + reg.scope);
+      });
+  }
+</script>

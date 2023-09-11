@@ -43,22 +43,31 @@ class StatementController extends Controller
             $totalBebanOperasional = DB::table('expenditures')
                 ->join('accounts', 'expenditures.account_id', '=', 'accounts.id')
                 ->whereBetween('expenditures.date', [$startMonth, $endMonth])
-                ->where('accounts.parent_id')
+                ->where('accounts.parent_id', 8)
                 ->sum('expenditures.nominal_exp');
-    
-            $totalBebanUtilitas = DB::table('expenditures')
+
+            $totalOverheadPabrik = DB::table('expenditures')
                 ->join('accounts', 'expenditures.account_id', '=', 'accounts.id')
                 ->whereBetween('expenditures.date', [$startMonth, $endMonth])
-                ->where('accounts.account_name', 'Beban Utilitas')
+                ->where('accounts.parent_id', 9)
                 ->sum('expenditures.nominal_exp');
     
-            $totalBeban = DB::table('expenditures')
+            $totalTenagaKerja = DB::table('expenditures')
                 ->join('accounts', 'expenditures.account_id', '=', 'accounts.id')
                 ->whereBetween('expenditures.date', [$startMonth, $endMonth])
-                ->where('accounts.parent_id', 5)
+                ->where('accounts.parent_id', 10)
                 ->sum('expenditures.nominal_exp');
     
-            $totalHPP =  $totalBeban - ($totalBebanOperasional + $totalBebanUtilitas);
+        
+    
+                $totalBeban = DB::table('expenditures')
+                ->join('accounts', 'expenditures.account_id', '=', 'accounts.id')
+                ->whereBetween('expenditures.date', [$startMonth, $endMonth])
+                ->whereIn('accounts.parent_id', [8, 9, 10])
+                ->sum('expenditures.nominal_exp');
+            
+    
+            $totalHPP =  $totalBeban;
     
             $labaKotor = $totalPendapatan - $totalHPP;
     
@@ -79,20 +88,36 @@ class StatementController extends Controller
             ->join('accounts', 'incomes.account_id', '=', 'accounts.id')
             ->select('accounts.account_name', DB::raw('SUM(incomes.total) as total_inc'))
             ->whereBetween('incomes.date', [$startMonth, $endMonth])
-            ->where('accounts.parent_id', 5)
+            ->where('accounts.parent_id', 4)
             ->groupBy('accounts.account_name')
             ->get();
 
-            $accumulatedData = DB::table('expenditures')
+            $akumulasiOperasional = DB::table('expenditures')
             ->join('accounts', 'expenditures.account_id', '=', 'accounts.id')
             ->select('accounts.account_name', DB::raw('SUM(expenditures.nominal_exp) as total_exp'))
             ->whereBetween('expenditures.date', [$startMonth, $endMonth])
-            ->where('accounts.parent_id', )
+            ->where('accounts.parent_id', 8)
+            ->groupBy('accounts.account_name')
+            ->get();
+
+            $akumulasiTenagaKerja = DB::table('expenditures')
+            ->join('accounts', 'expenditures.account_id', '=', 'accounts.id')
+            ->select('accounts.account_name', DB::raw('SUM(expenditures.nominal_exp) as total_exp'))
+            ->whereBetween('expenditures.date', [$startMonth, $endMonth])
+            ->where('accounts.parent_id', 9)
+            ->groupBy('accounts.account_name')
+            ->get();
+
+            $akumulasiOverhead = DB::table('expenditures')
+            ->join('accounts', 'expenditures.account_id', '=', 'accounts.id')
+            ->select('accounts.account_name', DB::raw('SUM(expenditures.nominal_exp) as total_exp'))
+            ->whereBetween('expenditures.date', [$startMonth, $endMonth])
+            ->where('accounts.parent_id', 10)
             ->groupBy('accounts.account_name')
             ->get();
     
 
-        return view('Report.Statement.index', compact('incomes','accumulatedData','bebans','startMonth', 'endMonth', 'totalPendapatan', 'totalBebanOperasional', 'totalBebanUtilitas', 'totalBeban', 'totalHPP', 'labaKotor', 'labaBersih'));
+        return view('Report.Statement.index', compact('akumulasiOverhead','akumulasiTenagaKerja','akumulasiOperasional','incomes','bebans','startMonth', 'endMonth', 'totalPendapatan', 'totalBebanOperasional', 'totalBebanUtilitas', 'totalBeban', 'totalHPP', 'labaKotor', 'labaBersih'));
     }
     
     
