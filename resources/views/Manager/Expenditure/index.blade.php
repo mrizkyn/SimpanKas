@@ -99,7 +99,7 @@
                                 <div class="mb-3">
                                     <label for="asset_period" class="form-label">Masa Manfaat</label>
                                     <input type="text" class="form-control @error('asset_period') is-invalid @enderror" id="asset_period"
-                                    name="asset_period" value="{{ old('asset_period') }}" placeholder="Total Pengeluaran">
+                                    name="asset_period" value="{{ old('asset_period') }}" placeholder="Total Pengeluaran" disabled>
                                     <div class="@error('asset_period') @enderror invalid-feedback">
                                         @foreach ($errors->get('asset_period') as $message)
                                             {{ $message }}
@@ -109,7 +109,7 @@
                                 <div class="mb-3">
                                     <label for="annual_dep" class="form-label">Penyusutan Per-Tahun</label>
                                     <input type="text" class="form-control @error('annual_dep') is-invalid @enderror" id="annual_dep"
-                                    name="annual_dep" value="{{ old('annual_dep') }}" placeholder="Total Pengeluaran">
+                                    name="annual_dep" value="{{ old('annual_dep') }}" placeholder="Total Pengeluaran" disabled>
                                     <div class="@error('annual_dep') @enderror invalid-feedback">
                                         @foreach ($errors->get('annual_dep') as $message)
                                             {{ $message }}
@@ -119,7 +119,7 @@
                                 <div class="mb-3">
                                     <label for="dep_month" class="form-label">Penyusutan Per-Bulan</label>
                                     <input type="text" class="form-control @error('dep_month') is-invalid @enderror" id="dep_month"
-                                    name="dep_month" value="{{ old('dep_month') }}" placeholder="Total Pengeluaran">
+                                    name="dep_month" value="{{ old('dep_month') }}" placeholder="Total Pengeluaran" disabled>
                                     <div class="@error('dep_month') @enderror invalid-feedback">
                                         @foreach ($errors->get('dep_month') as $message)
                                             {{ $message }}
@@ -267,7 +267,35 @@
 
 
 <script>
-    
+    $(document).ready(function () {
+        $('#parent').on('change', function () {
+            var parent_id = $('#parent option:selected').data('code');
+            
+            if (parent_id === 100) {
+                $('#asset_period').prop('disabled', false);
+            } else {
+                $('#asset_period').prop('disabled', true);
+                $('#annual_dep').prop('disabled', true);
+                $('#dep_month').prop('disabled', true);
+            }
+        });
+
+        $('#nominal_exp, #asset_period').on('input', function () {
+            var nominalExp = parseInt($('#nominal_exp').val());
+            var assetPeriod = parseInt($('#asset_period').val());
+
+            if (!isNaN(nominalExp) && !isNaN(assetPeriod) && assetPeriod > 0) {
+                var annualDep = nominalExp / assetPeriod;
+                var depMonth = annualDep / 12;
+
+                $('#annual_dep').val(annualDep.toFixed());
+                $('#dep_month').val(depMonth.toFixed());
+            } else {
+                $('#annual_dep').val('');
+                $('#dep_month').val('');
+            }
+        });
+    });
 </script>
 
 </body>
