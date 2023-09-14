@@ -97,9 +97,9 @@
                                     </div>
                                 
                                 <div class="mb-3">
-                                    <label for="asset_period" class="form-label">Masa Manfaat</label>
+                                    <label for="asset_period" class="form-label">Masa Manfaat (Tahun)</label>
                                     <input type="text" class="form-control @error('asset_period') is-invalid @enderror" id="asset_period"
-                                    name="asset_period" value="{{ old('asset_period') }}" placeholder="Total Pengeluaran" disabled>
+                                    name="asset_period" value="{{ old('asset_period') }}" placeholder="Masa Manfaat" disabled>
                                     <div class="@error('asset_period') @enderror invalid-feedback">
                                         @foreach ($errors->get('asset_period') as $message)
                                             {{ $message }}
@@ -109,8 +109,8 @@
                                 <div class="mb-3">
                                     <label for="annual_dep" class="form-label">Penyusutan Per-Tahun</label>
                                     <input type="text" class="form-control @error('annual_dep') is-invalid @enderror" id="annual_dep"
-                                    name="annual_dep" value="{{ old('annual_dep') }}" placeholder="Total Pengeluaran" disabled>
-                                    <div class="@error('annual_dep') @enderror invalid-feedback">
+                                    name="annual_dep" value="{{ old('annual_dep') }}" placeholder="Penyusutan Per-Tahun" disabled>
+                                    <div class="@error('annual_dep') @enderror invalid-feedback" >
                                         @foreach ($errors->get('annual_dep') as $message)
                                             {{ $message }}
                                             @endforeach
@@ -119,8 +119,8 @@
                                 <div class="mb-3">
                                     <label for="dep_month" class="form-label">Penyusutan Per-Bulan</label>
                                     <input type="text" class="form-control @error('dep_month') is-invalid @enderror" id="dep_month"
-                                    name="dep_month" value="{{ old('dep_month') }}" placeholder="Total Pengeluaran" disabled>
-                                    <div class="@error('dep_month') @enderror invalid-feedback">
+                                    name="dep_month" value="{{ old('dep_month') }}" placeholder="Penyusutan Per-Bulan" disabled>
+                                    <div class="@error('dep_month') @enderror invalid-feedback" >
                                         @foreach ($errors->get('dep_month') as $message)
                                             {{ $message }}
                                             @endforeach

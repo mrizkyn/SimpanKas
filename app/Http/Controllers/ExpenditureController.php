@@ -69,6 +69,7 @@ class ExpenditureController extends Controller
             'account_id' => 'required',
             'exp_desc' => 'required',
             'nominal_exp' => 'required',
+         
         ]);
     
         $exp = new Expenditure();
@@ -76,9 +77,12 @@ class ExpenditureController extends Controller
         $exp->account_id = $request->input('account_id');
         $exp->exp_desc = $request->input('exp_desc');
         $exp->nominal_exp = $request->input('nominal_exp');
+        $exp->dep_month = $request->input('dep_month');
+        $exp->asset_period = $request->input('asset_period');
+        $exp->annual_dep = $request->input('annual_dep');
         $exp->save();
     
-        $request->session()->flash('success', 'Data Berhasil Disimpan');
+        $request->session('success', 'Data Berhasil Disimpan');
         return redirect('/expenditure');
     }
     

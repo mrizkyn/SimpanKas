@@ -44,9 +44,9 @@
   <div class="card">
       <div class="card-body">
           <h2><b>Aset</b></h2>
-          <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addDataModal">
+          {{-- <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addDataModal">
             Tambah Aset
-        </button>
+        </button> --}}
           <br>
           <br>
   <div class="table-responsive nowrap" style="width:100%">
@@ -61,6 +61,7 @@
                   <th>Masa Manfaat (Tahun)</th>
                   <th>Penyusutan Per-Tahun</th>
                   <th>Penyusutan Per-Bulan</th>
+                  <th>Deskripsi</th>
               </tr>
           </thead>
           <tbody class="table-striped">
@@ -71,10 +72,10 @@
                   <td>{{ $asset->Account->code_name }}</td>
                   <td>{{ $asset->Account->account_name }}</td>
                   <td class="text-rigt">Rp {{ number_format($asset->nominal_exp, 0, ',', '.') }}</td> 
-                  <td>{{ $asset->exp_desc }}</td>
                   <td>{{ $asset->asset_periode }}</td>
                   <td>{{ $asset->annual_dep }}</td>
                   <td>{{ $asset->dep_month }}</td>
+                  <td>{{ $asset->exp_desc }}</td>
               </tr>
               @endforeach
           </tbody>
