@@ -34,6 +34,31 @@
     @section('content')
 
     <div class="container">
+        <div class="modal fade" id="editDataModal" tabindex="-1" aria-labelledby="editDataModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editDataModalLabel">Tambah Penyesuaian</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ route('expenditure.update', ['id' => 1]) }}" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <div class="mb-3">
+                                <label for="edit_exp_name">Total Penjualan:</label>
+                                <input type="text" class="form-control" id="edit_exp_name" name="edit_exp_name" required>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-success">Simpan</button>
+                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Tutup</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="modal fade" id="tambahDataModal" tabindex="-1" aria-labelledby="tambahDataModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -43,11 +68,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">
-                            @if ($errors->any())
-                                <div class="alert alert-danger">
-                                    Validation Error!
-                                </div>
-                            @endif
+                            
 
                          
                             <form id="formTambahData" action="/expenditure/store" method="POST">
@@ -152,12 +173,18 @@
         <div class="container-fluid">
             <div class="card">
                 <div class="card-body">
+                    @if ($errors->any())
+                    <div class="alert alert-danger">
+                        Data Yang Anda Masukan Tidak Lengkap!
+                    </div>
+                @endif
+
+                @if (session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                    @endif
                     <h2><b>Pengeluaran</b></h2>
-                       @if (session('success'))
-                                <div class="alert alert-success">
-                                    {{ session('success') }}
-                                </div>
-                            @endif
                     <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#tambahDataModal">Tambah Data</button>
                     <br>
                     <br>
@@ -172,6 +199,7 @@
                                     <th>Nominal</th>
                                     <th>Deskripsi</th>
                                     <th>Pencatat</th>
+                                    <th>Tambah Penyesuaian</th>
                                 </tr>
                             </thead>
                             <tbody class="table-striped">
@@ -184,6 +212,12 @@
                                     <td>Rp {{ number_format($exp->nominal_exp, 0, ',', '.') }}</td> 
                                     <td>{{ $exp->exp_desc }}</td>
                                     <td>rizky</td>
+                                    <td>
+                                    <button type="button" class="btn btn-primary edit-btn" 
+                                    data-bs-toggle="modal" data-bs-target="#editDataModal"
+                                    data-exp-id="{{ $exp->id }}" data-exp-total="{{ $exp->nominal_exp }}">
+                                    <i class="bi bi-clipboard-plus"></i>
+                                    </button></td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -199,11 +233,6 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    @if (session('success'))
-    <script>
-        alert('{{ session('success') }}');
-    </script>
-    @endif
 
     <script>
         $(document).ready(function () {
@@ -273,6 +302,8 @@
             
             if (parent_id === 100) {
                 $('#asset_period').prop('disabled', false);
+                $('#annual_dep').prop('disabled', false);
+                $('#dep_month').prop('disabled', false);
             } else {
                 $('#asset_period').prop('disabled', true);
                 $('#annual_dep').prop('disabled', true);
@@ -297,6 +328,19 @@
         });
     });
 </script>
+
+<script>
+    $(document).ready(function () {
+        $('.edit-btn').click(function () {
+            var expId = $(this).data('exp-id');
+            var expTotal = $(this).data('exp-total');
+            $('#edit_exp_name').val(expTotal);            
+            var editFormAction = "{{ route('expenditure.update', ['id' => ':id']) }}".replace(':id', expId);
+            $('#editDataModal form').attr('action', editFormAction);
+        });
+    });
+</script>
+
 
 </body>
 </html>

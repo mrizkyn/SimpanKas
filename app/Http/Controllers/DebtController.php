@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Debt;
 use App\Models\Account;
+use App\Models\DebtRepaid;
+use DB;
 use Illuminate\Http\Request;
 
 class DebtController extends Controller
@@ -15,9 +17,11 @@ class DebtController extends Controller
      */
     public function index()
     {
-        $debts = Debt::all();
+        $debtOn = Debt::all();
+        $debtRepaids = DebtRepaid::all();
+        $debts = $debtOn->concat($debtRepaids);
         $accounts = Account::all();
-        $debts = Debt::with('Account')->paginate(5);
+      
         return view('Manager.Debt.index', compact('debts','accounts'));
     }
 
@@ -59,7 +63,6 @@ class DebtController extends Controller
         $debt->date = $request->input('date');
         $debt->save();
 
-        $request->session()->flash('success', 'Data Berhasil Disimpan');
         return redirect('/debt');
 
     }
@@ -109,13 +112,35 @@ class DebtController extends Controller
         //
     }
 
-    public function toggleStatus($id)
-{
-    $debt = Debt::findOrFail($id);
-    $debt->status = $debt->status === 'lunas' ? 'belum lunas' : 'lunas';
-    $debt->save();
+    public function changeStatusToPaid($id)
+    {
+        $debt = Debt::find($id);
 
-    return redirect()->back()->with('success', 'Status successfully updated.');
-}
+        if (!$debt) {
+            return redirect('/debt');        }
+    
+        if ($debt->status === true) {
+            return redirect('/debt');
+        }
+    
+        $debt->status = true;
+        $debt->save();
+    
+        $debtRepaid = new DebtRepaid();
+        $debtRepaid->account_id = $debt->account_id;
+        $debtRepaid->creditor = $debt->creditor;
+        $debtRepaid->debt_nominal = $debt->debt_nominal;
+        $debtRepaid->due_date = $debt->due_date;
+        $debtRepaid->debt_desc = $debt->debt_desc;
+        $debtRepaid->date = $debt->date;
+        $debtRepaid->status = true; 
+        $debtRepaid->save();
+   
+        $debt->delete();
+    
+        return redirect('/debt');    
+    }
+    
+    }    
 
-}
+

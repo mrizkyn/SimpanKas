@@ -13,15 +13,18 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('debts', function (Blueprint $table) {
+        Schema::create('receivable_repaids', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('account_id');
-            $table->string('creditor');
-            $table->integer('debt_nominal');
-            $table->date('due_date');
-            $table->string('debt_desc');
+            $table->string('debt_recipient');
+            $table->bigInteger('receive_nominal');
+            $table->date('payment_date');
+            $table->string('receive_desc');
             $table->date('date');
+            $table->boolean('status')->default(false);
             $table->timestamps();
+
+            $table->foreign('account_id')->references('id')->on('accounts')->onDelete('cascade');
         });
     }
 
@@ -32,6 +35,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('debts');
+        Schema::dropIfExists('receivable_repaids');
     }
 };

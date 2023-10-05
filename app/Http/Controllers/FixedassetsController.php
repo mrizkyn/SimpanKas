@@ -16,9 +16,11 @@ class FixedassetsController extends Controller
      */
     public function index()
     {
-        $assets = Expenditure::whereHas('account', function ($account) {
-            $account->where('parent_id', [6,1,7]);
-        })->get();
+        $assets = Expenditure::with('account')
+        ->whereHas('account', function ($query) {
+            $query->whereIn('parent_id', [6, 1, 7]);
+        })
+        ->get();
         
         return view('Manager.Aset.index', compact('assets'));
     }

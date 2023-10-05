@@ -48,7 +48,7 @@
   </head>
   
   <body style="background-color: rgba(0, 131, 116, 0.9)">
-    @extends('layouts.frontend.app')
+    @extends('layouts.laporan.app')
   
     @section('content')
 

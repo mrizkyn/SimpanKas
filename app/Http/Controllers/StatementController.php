@@ -58,9 +58,8 @@ class StatementController extends Controller
                 ->where('accounts.parent_id', 10)
                 ->sum('expenditures.nominal_exp');
     
-        
-    
-                $totalBeban = DB::table('expenditures')
+          
+             $totalBeban = DB::table('expenditures')
                 ->join('accounts', 'expenditures.account_id', '=', 'accounts.id')
                 ->whereBetween('expenditures.date', [$startMonth, $endMonth])
                 ->whereIn('accounts.parent_id', [8, 9, 10])

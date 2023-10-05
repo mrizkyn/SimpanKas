@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Account;
 use App\Models\Receivable;
+use App\Models\ReceivableRepaid;
 use Illuminate\Http\Request;
 
 class ReceivablesController extends Controller
@@ -15,9 +16,11 @@ class ReceivablesController extends Controller
      */
     public function index()
     {
-        $receivables = Receivable::all();
+        $receivableOn = Receivable::all();
+        $receivableRepaids = ReceivableRepaid::all();
+        $receivables = $receivableOn->concat($receivableRepaids);
         $accounts = Account::all();
-        $receivables = Receivable::with('Account')->paginate(5);
+        
         return view('Manager.Receivables.index', compact('receivables','accounts'));
     }
 
@@ -58,8 +61,6 @@ class ReceivablesController extends Controller
         $r->receive_desc = $request->input('receive_desc');
         $r->date = $request->input('date');
         $r->save();
-
-        $request->session()->flash('success', 'Data Berhasil Disimpan');
         return redirect('/receivables');
 
     }
@@ -109,12 +110,34 @@ class ReceivablesController extends Controller
         //
     }
 
-    public function toggleStatus($id)
+
+    public function changeStatusToPaid($id)
     {
-        $r = Receivable::findOrFail($id);
-        $r->status = $r->status === 'lunas' ? 'belum lunas' : 'lunas';
+        $r = Receivable::find($id);
+
+        if (!$r) {
+            return redirect('/receivables');        }
+    
+        if ($r->status === true) {
+            return redirect('/receivables');
+        }
+    
+        $r->status = true;
         $r->save();
     
-        return redirect()->back()->with('success', 'Status successfully updated.');
+        $receivableRepaid = new ReceivableRepaid();
+        $receivableRepaid->account_id = $r->account_id;
+        $receivableRepaid->debt_recipient = $r->debt_recipient;
+        $receivableRepaid->receive_nominal = $r->receive_nominal;
+        $receivableRepaid->payment_date = $r->payment_date;
+        $receivableRepaid->receive_desc = $r->receive_desc;
+        $receivableRepaid->date = $r->date;
+        $receivableRepaid->status = true; 
+        $receivableRepaid->save();
+   
+        $r->delete();
+    
+        return redirect('/receivables');
     }
-}
+
+    }

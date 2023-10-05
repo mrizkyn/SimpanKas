@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateDebtRepaidsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('debts', function (Blueprint $table) {
+        Schema::create('debt_repaids', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('account_id');
             $table->string('creditor');
@@ -21,7 +21,10 @@ return new class extends Migration
             $table->date('due_date');
             $table->string('debt_desc');
             $table->date('date');
+            $table->boolean('status')->default(false);
             $table->timestamps();
+
+           
         });
     }
 
@@ -32,6 +35,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('debts');
+        Schema::dropIfExists('debt_repaids');
     }
-};
+}

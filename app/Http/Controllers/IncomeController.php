@@ -95,7 +95,13 @@ class IncomeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'edit_income_name' => 'required',
+        ]);
+        $income = Income::findOrFail($id);
+        $income->total = $request->input('edit_income_name');
+        $income->save();
+        return redirect()->back()->with('success', 'Data Berhasil Diperbarui');
     }
 
     /**

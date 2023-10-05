@@ -71,11 +71,11 @@
                   <td>{{ $asset->date }}</td>
                   <td>{{ $asset->Account->code_name }}</td>
                   <td>{{ $asset->Account->account_name }}</td>
-                  <td class="text-rigt">Rp {{ number_format($asset->nominal_exp, 0, ',', '.') }}</td> 
-                  <td>{{ $asset->asset_periode }}</td>
-                  <td>{{ $asset->annual_dep }}</td>
-                  <td>{{ $asset->dep_month }}</td>
-                  <td>{{ $asset->exp_desc }}</td>
+                  <td>Rp {{ number_format($asset->nominal_exp, 0, ',', '.') }}</td> 
+                  <td >{{ $asset->asset_period }} Tahun</td>
+                  <td>Rp {{ number_format($asset->annual_dep, 0, ',', '.') }}</td>
+                  <td>Rp {{ number_format($asset->dep_month, 0, ',', '.') }}</td>
+                  <td>{{$asset->exp_desc}}</td>
               </tr>
               @endforeach
           </tbody>

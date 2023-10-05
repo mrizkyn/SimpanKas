@@ -63,10 +63,7 @@ class AccountController extends Controller
             
         $account->save();
 
-
-
-
-        return redirect()->route('accounts.index')->with('success', 'Account added successfully!');
+        return redirect()->route('accounts.index')->with('Data Berhasil Disimpan');
     }
 
     /**
@@ -100,8 +97,21 @@ class AccountController extends Controller
      */
     public function update(Request $request, $id)
     {
-     
+        $request->validate([
+            'edit_account_name' => 'required|string|max:255',
+        ]);
+        $account = Account::findOrFail($id);
+        $account->account_name = $request->input('edit_account_name');
+        $account->save();
+        return redirect()->back()->with('success', 'Data Berhasil Diperbarui');
     }
+    
+    
+    
+    
+    
+    
+    
 
     /**
      * Remove the specified resource from storage.

@@ -45,7 +45,7 @@
 </head>
 
 <body style="background-color: rgba(0, 131, 116, 0.9)">
-    @extends('layouts.frontend.app')
+    @extends('layouts.laporan.app')
 
     @section('content')
 
@@ -104,76 +104,89 @@
                                 <td ><b>Aset Lancar :</b></td>
                                 <td ></td>
                             </tr>
-                            @foreach ($incomes as $income)
                             <tr>
-                                <td  style="background-color: rgb(92, 214, 255);">Kas</td>
-                                <td  style="background-color: rgb(92, 214, 255);" class="text-right">{{ 'Rp ' . number_format($income->total_inc, 0, ',', '.') }}</td>
+                                <td  style="background-color: rgb(92, 214, 255);">- Kas</td>
+                                <td  style="background-color: rgb(92, 214, 255);" class="text-right">{{ 'Rp ' . number_format($labaBersih, 0, ',', '.') }}</td>
                             </tr>
-                        @endforeach
-                            @foreach ($incomes as $income)
+                  
+                         
                             <tr>
-                                <td  style="background-color: rgb(92, 214, 255);">Perlengkapan</td>
-                                <td  style="background-color: rgb(92, 214, 255);" class="text-right">{{ 'Rp ' . number_format($income->total_inc, 0, ',', '.') }}</td>
+                                <td  style="background-color: rgb(92, 214, 255);">- Piutang</td>
+                                <td  style="background-color: rgb(92, 214, 255);" class="text-right">{{ 'Rp ' . number_format($totalPiutang, 0, ',', '.') }}</td>
                             </tr>
-                        @endforeach
-                        <tr>
-                            <td  style="background-color: rgb(92, 214, 255);" ><b>Total Pendapatan</b></td>
-                            <td   style="background-color: rgb(92, 214, 255);" class="text-right"><b>{{ 'Rp ' . number_format($totalPendapatan, 0, ',', '.') }}</b></td>
-                        </tr>
-                        <tr>
-                            <td ><b>Harga Pokok Produksi</b></td>
-                            <td  class="text-right"><b>{{ 'Rp ' . number_format($totalHPP, 0, ',', '.') }}</b></td>
-                        </tr>
                             <tr>
-                                <td ><b>Beban Beban :</b></td>
+                                <td  style="background-color: rgb(92, 214, 255);">- Perlengkapan</td>
+                                <td  style="background-color: rgb(92, 214, 255);" class="text-right">{{ 'Rp ' . number_format($totalPerlengkapan, 0, ',', '.') }}</td>
+                            </tr>
+                            
+                            
+                            
+                            
+                            <tr>
+                                <td style="background-color: rgb(92, 214, 255);" ><b>Total Aset Lancar :</b></td>
+                                <td style="background-color: rgb(92, 214, 255);" class="text-right"><b>{{ 'Rp ' . number_format($totalAsetLancar, 0, ',', '.') }}</b></td>
+                            </tr>
+                            
+                            <tr>
+                                <td ><b>Aset Tetap :</b></td>
                                 <td ></td>
                             </tr>
-                           
+                            
                             <tr>
-                                <td  style="background-color: rgb(92, 214, 255);">- <b>Beban Operasional :</b></td>
-                                <td  style="background-color: rgb(92, 214, 255);" class="text-right"></td>
+                                <td  style="background-color: rgb(92, 214, 255);">- Peralatan</td>
+                                <td  style="background-color: rgb(92, 214, 255);" class="text-right">{{ 'Rp ' . number_format($totalPeralatan, 0, ',', '.') }}</td>
                             </tr>
-                   
-                            @foreach ($akumulasiOperasional as $operasional)
-                                <tr>
-                                    <td  style="background-color: rgb(92, 214, 255);">- {{ $operasional->account_name }}</td>
-                                    <td  style="background-color: rgb(92, 214, 255);" class="text-right">({{ 'Rp ' . number_format($operasional->total_exp, 0, ',', '.') }})</td>
-                                </tr>
+                            <tr>
+                                <td  style="background-color: rgb(92, 214, 255);">- Akumulasi Penyusutan Peralatan</td>
+                                <td  style="background-color: rgb(92, 214, 255);" class="text-right">({{ 'Rp ' . number_format($akumPenyusutanPeralatan, 0, ',', '.') }})</td>
+                            </tr>
+
+                            @foreach ($asetTetap as $tetap)
+                            <tr>
+                                <td style="background-color: rgb(92, 214, 255);">- {{ $tetap->account_name }}</td>
+                                <td style="background-color: rgb(92, 214, 255);" class="text-right">
+                                    {{ 'Rp ' . number_format($tetap->total_nominal, 0, ',', '.') }}
+                                </td>
+                            </tr>
                             @endforeach
                             <tr>
-                            <tr>
-                                <td  style="background-color: rgb(92, 214, 255);">- <b>Beban Tenaga Kerja :</b></td>
-                                <td  style="background-color: rgb(92, 214, 255);" class="text-right"></td>
+                                <td  style="background-color: rgb(92, 214, 255);">- Akumulasi Penyusutan Bangunan</td>
+                                <td  style="background-color: rgb(92, 214, 255);" class="text-right">({{ 'Rp ' . number_format($akumPenyusutanBangunan, 0, ',', '.') }})</td>
                             </tr>
-                   
-                            @foreach ($akumulasiTenagaKerja as $tenagakerja)
-                                <tr>
-                                    <td  style="background-color: rgb(92, 214, 255);">- {{ $tenagakerja->account_name }}</td>
-                                    <td  style="background-color: rgb(92, 214, 255);" class="text-right">({{ 'Rp ' . number_format($tenagakerja->total_exp, 0, ',', '.') }})</td>
-                                </tr>
-                            @endforeach
+                            
                             <tr>
-                                <td  style="background-color: rgb(92, 214, 255);">- <b>Overhead Pabrik :</b></td>
-                                <td  style="background-color: rgb(92, 214, 255);" class="text-right"></td>
+                                <td style="background-color: rgb(92, 214, 255);" ><b>Total Aset Tetap :</b></td>
+                                <td style="background-color: rgb(92, 214, 255);" class="text-right"><b>{{ 'Rp ' . number_format($totalAsetTetap, 0, ',', '.') }}</b></td>
                             </tr>
-                   
-                            @foreach ($akumulasiOverhead as $overhead)
-                                <tr>
-                                    <td  style="background-color: rgb(92, 214, 255);">- {{ $overhead->account_name }}</td>
-                                    <td  style="background-color: rgb(92, 214, 255);" class="text-right">({{ 'Rp ' . number_format($overhead->total_exp, 0, ',', '.') }})</td>
-                                </tr>
-                            @endforeach
+                        
                             <tr>
-                                <td  style="background-color: rgb(92, 214, 255);" style="color:red"><b>Total Beban</b></td>
-                                <td  style="background-color: rgb(92, 214, 255);" class="text-right" id="totalBeban"><b> ({{  'Rp' . number_format($totalBeban, 0, ',', '.') }})</b></td>
+                                <td ><b>Total Aset :</b></td>
+                                <td  class="text-right"><b>{{ 'Rp ' . number_format($totalAset, 0, ',', '.') }}</b></td>
                             </tr>
+                            
                             <tr>
-                                <td ><b>Laba Kotor</b></td>
-                                <td  class="text-right"><b>{{ 'Rp ' . number_format($labaKotor, 0, ',', '.') }}</b></td>
+                                <td ><b>Liabilitas :</b></td>
+                                <td ></td>
                             </tr>
+                            
                             <tr>
-                                <td style="background-color: rgb(3, 160, 212);"><b>Laba Bersih</b></td>
-                                <td style="background-color: rgb(3, 160, 212);" class="text-right"><b>{{ 'Rp ' . number_format($labaBersih, 0, ',', '.') }}</b></td>
+                                <td  style="background-color: rgb(92, 214, 255);">- Utang Usaha</td>
+                                <td  style="background-color: rgb(92, 214, 255);" class="text-right">({{ 'Rp ' . number_format($totalUtang, 0, ',', '.') }})</td>
+                            </tr>
+                            
+                            <tr>
+                                <td ><b>Ekuitas  :</b></td>
+                                <td ></td>
+                            </tr>
+
+                            <tr>
+                                <td  style="background-color: rgb(92, 214, 255);">- Modal</td>
+                                <td  style="background-color: rgb(92, 214, 255);" class="text-right">{{ 'Rp ' . number_format($modal, 0, ',', '.') }}</td>
+                            </tr>
+
+                            <tr>
+                                <td style="background-color: rgb(3, 160, 212);"><b>Total Liabilitas dan Ekuitas :</b></td>
+                                <td style="background-color: rgb(3, 160, 212);" class="text-right"><b>{{ 'Rp ' . number_format($totalLiabilitasdanEkuitas, 0, ',', '.') }}</b></td>
                             </tr>
                         </tbody>
                     </table>

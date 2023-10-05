@@ -53,8 +53,8 @@
                     <ul>
                         <!-- Authentication Links -->
                         @guest
-                            <li><a href="{{ route('login') }}">{{ __('Login') }}</a></li>
-                            <li><a href="{{ route('register') }}">{{ __('Register') }}</a></li>
+                            {{-- <li><a href="{{ route('login') }}">{{ __('Login') }}</a></li>
+                            <li><a href="{{ route('register') }}">{{ __('Register') }}</a></li> --}}
                         @else
                             <li><a href="/home">Beranda</a></li>
                             <li><a href="{{ route('users.index') }}">Manage Users</a></li>

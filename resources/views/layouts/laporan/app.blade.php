@@ -30,8 +30,7 @@
 
     <!-- Template Main CSS File -->
     <link href="../assets/css/main.css" rel="stylesheet">
-    <link href="../assets/css/table.css" rel="stylesheet">
-    <script src="../assets/js/table.js"></script>
+
     <!-- =======================================================
     * Template Name: Impact
     * Updated: May 30 2023 with Bootstrap v5.3.0

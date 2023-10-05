@@ -51,10 +51,7 @@
     @extends('layouts.frontend.app')
     @section('content')
 
-    <div class="container">
-        
-                      </div>
-    </div>
+    <div class="container"></div>
     <div class="modal fade" id="tambahDataModal" tabindex="-1" aria-labelledby="tambahDataModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -64,17 +61,6 @@
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
-                        @if ($errors->any())
-                            <div class="alert alert-danger">
-                                Validation Error!
-                            </div>
-                        @endif
-    
-                        @if (session('success'))
-                            <div class="alert alert-success">
-                                {{ session('success') }}
-                            </div>
-                        @endif
                         <form id="formTambahData" action="/receivables/store" method="POST">
                             @csrf
                             <div class="mb-3">
@@ -176,6 +162,17 @@
 <div class="container-fluid">
 <div class="card">
     <div class="card-body">
+        @if ($errors->any())
+        <div class="alert alert-danger">
+            Data Yang Anda Masukan Tidak Lengkap!
+        </div>
+    @endif
+
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+        @endif
         <h2><b>Catat Piutang</b></h2>
         <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#tambahDataModal">Tambah Data</button>
         <br>
@@ -207,12 +204,10 @@
                 <td>{{ $r->payment_date }}</td>
                 <td>{{ $r->receive_desc }}</td>
                 <td>
-                    <a href="{{ route('Receive.toggleStatus', $r->id) }}" class="card-link" onclick="event.preventDefault(); document.getElementById('toggle-status-form-{{ $r->id }}').submit();">
-                        <div class="card-status {{ $r->status === 'lunas' ? 'bg-lunas' : 'bg-belum-lunas' }}">
-                            {{ $r->status }}
-                        </div>
+                    <a href="#" onclick="showConfirmationModal({{ $r->id }});" class="card-status {{ $r->status ? 'bg-lunas' : 'bg-belum-lunas' }}">
+                        {{ $r->status ? 'Lunas' : 'Belum Lunas' }}
                     </a>
-                    <form id="toggle-status-form-{{ $r->id }}" action="{{ route('Receive.toggleStatus', $r->id) }}" method="POST" style="display: none;">
+                    <form style="display: none;" id="r-status-form-{{ $r->id }}" method="POST" action="{{ route('receivable.status', $r->id) }}">
                         @csrf
                     </form>
                 </td>
@@ -224,6 +219,24 @@
 
     </table>
     <script>setMobileTable('table')</script>
+
+    <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Konfirmasi Perubahan Status Piutang</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Apakah Anda yakin ingin mengubah status Piutang?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Tidak</button>
+                    <button type="button" class="btn btn-success" onclick="submitForm()">Ya</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 </div>
 </div>
@@ -260,5 +273,25 @@
             });
         </script>
     
+    <script>
+        function showConfirmationModal(rId) {
+            var form = document.getElementById('r-status-form-' + rId);
+            var modal = document.getElementById('confirmationModal');
     
+            var modalInstance = new bootstrap.Modal(modal);
+            modalInstance.show();
+    
+            // Simpan referensi form dalam variabel global agar bisa di-submit
+            window.currentForm = form;
+        }
+    
+        function submitForm() {
+            if (window.currentForm) {
+                window.currentForm.submit();
+                var modal = document.getElementById('confirmationModal');
+                var modalInstance = bootstrap.Modal.getInstance(modal);
+                modalInstance.hide();
+            }
+        }
+    </script>
 </body>

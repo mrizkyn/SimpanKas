@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+
 
 class LoginController extends Controller
 {
@@ -19,8 +21,31 @@ class LoginController extends Controller
     |
     */
 
-    use AuthenticatesUsers;
+    use AuthenticatesUsers {
+        logout as performLogout;
+    }
+    
 
+
+
+    protected function authenticated(Request $request, $user)
+{
+    $roles = $user->roles;
+
+    if ($roles) {
+        $name = $roles[0]['name'];
+
+        if ($name == 'superadmin') {
+            return redirect()->route('layouts.app');;
+        } elseif ($name == 'akuntan') {
+            return redirect()->route('layouts.index');;
+        } elseif ($name == 'pemilik') {
+            return redirect('layouts.laporan.app');
+        }
+    }
+
+    return redirect($this->redirectTo);
+}
     /**
      * Where to redirect users after login.
      *

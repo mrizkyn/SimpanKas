@@ -33,6 +33,30 @@
     @section('content')
 
     <div class="container">
+        <div class="modal fade" id="editDataModal" tabindex="-1" aria-labelledby="editDataModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editDataModalLabel">Tambah Penyesuaian</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ route('income.update', ['id' => 1]) }}" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <div class="mb-3">
+                                <label for="edit_income_name">Total Penjualan:</label>
+                                <input type="text" class="form-control" id="edit_income_name" name="edit_income_name" required>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-success">Simpan</button>
+                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Tutup</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
 
                 <div class="modal fade" id="tambahDataModal" tabindex="-1" aria-labelledby="tambahDataModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
@@ -150,18 +174,26 @@
                         <th>Deskripsi</th>
                         <th>Total Penjualan</th>
                         <th>Pencatat</th>
+                        <th>Tambah Penyesuaian</th>
                     </tr>
                 </thead>
                 <tbody class="table-striped">
                     @foreach ($incomes as $income)
                     <tr>
-                        <th scope="row">{{ $loop->iteration }}</th>
+                        <td scope="row">{{ $loop->iteration }}</td>
                         <td>{{ $income->date }}</td>
                         <td>{{ $income->Account->code_name }}</td>
                         <td>{{ $income->Account->account_name }}</td>
                         <td>{{ $income->descrription }}</td>
                         <td>Rp {{ number_format($income->total, 0, ',', '.') }}</td>
                         <td>Rizky</td>
+                        <td >
+                            <button type="button" class="btn btn-primary edit-btn" 
+                                    data-bs-toggle="modal" data-bs-target="#editDataModal"
+                                    data-income-id="{{ $income->id }}" data-income-total="{{ $income->total }}">
+                                    <i class="bi bi-clipboard-plus"></i>
+                            </button>
+                        </td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -204,7 +236,17 @@
     </script>
     
 
-
+    <script>
+        $(document).ready(function () {
+            $('.edit-btn').click(function () {
+                var incomeId = $(this).data('income-id');
+                var incomeTotal = $(this).data('income-total');
+                $('#edit_income_name').val(incomeTotal);            
+                var editFormAction = "{{ route('income.update', ['id' => ':id']) }}".replace(':id', incomeId);
+                $('#editDataModal form').attr('action', editFormAction);
+            });
+        });
+    </script>
 
     
 </body>

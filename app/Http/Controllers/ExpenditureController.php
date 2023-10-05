@@ -72,13 +72,17 @@ class ExpenditureController extends Controller
          
         ]);
     
+        $annualDep = $request->input('annual_dep');
+        $depMonth = $request->input('dep_month');
+
+
         $exp = new Expenditure();
         $exp->date = $request->input('date');
         $exp->account_id = $request->input('account_id');
         $exp->exp_desc = $request->input('exp_desc');
         $exp->nominal_exp = $request->input('nominal_exp');
-        $exp->dep_month = $request->input('dep_month');
         $exp->asset_period = $request->input('asset_period');
+        $exp->dep_month = $request->input('dep_month');
         $exp->annual_dep = $request->input('annual_dep');
         $exp->save();
     
@@ -117,9 +121,14 @@ class ExpenditureController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'edit_exp_name' => 'required',
+        ]);
+        $exp = Expenditure::findOrFail($id);
+        $exp->nominal_exp = $request->input('edit_exp_name');
+        $exp->save();
+        return redirect()->back()->with('success', 'Data Berhasil Diperbarui');
     }
-
     /**
      * Remove the specified resource from storage.
      *

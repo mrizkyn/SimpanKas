@@ -14,19 +14,14 @@ return new class extends Migration
     public function up()
     {
         Schema::table('receivables', function (Blueprint $table) {
-            $table->string('status')->default('belum lunas');
+            $table->boolean('status')->default(false); 
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::table('receivables', function (Blueprint $table) {
-            //
+            $table->dropColumn('status');
         });
     }
 };
