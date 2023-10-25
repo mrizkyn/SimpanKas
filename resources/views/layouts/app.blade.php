@@ -42,7 +42,7 @@
 <body style=" background-color: rgba(0, 131, 116, 0.9);">
     <header id="header" class="header d-flex align-items-center">
         <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
-            <a href="/" class="logo d-flex align-items-center">
+            <a href="/home" class="logo d-flex align-items-center">
                 <!-- Uncomment the line below if you also wish to use an image logo -->
                 <!-- <img src="assets/img/logo.png" alt=""> -->
                 <h1>SimpanKas<span>.</span></h1>
@@ -85,6 +85,7 @@
     </header><!-- End Header -->
 
 <main class="py-4">
+            
             <div class="container">
             @yield('content')
             </div>
@@ -95,15 +96,15 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="assets/vendor/aos/aos.js"></script>
-    <script src="./assets/vendor/glightbox/js/glightbox.min.js"></script>
-    <script src="./assets/vendor/purecounter/purecounter_vanilla.js"></script>
-    <script src="./assets/vendor/swiper/swiper-bundle.min.js"></script>
-    <script src="./assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-    <script src="./assets/vendor/php-email-form/validate.js"></script>
+    <script src="../assets/vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="../assets/vendor/purecounter/purecounter_vanilla.js"></script>
+    <script src="../assets/vendor/swiper/swiper-bundle.min.js"></script>
+    <script src="../assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+    <script src="../assets/vendor/php-email-form/validate.js"></script>
     <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
-    <script src="./assets/js/main.js"></script>
+    <script src="../assets/js/main.js"></script>
   
 
 

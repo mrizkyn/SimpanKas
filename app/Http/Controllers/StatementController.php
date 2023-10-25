@@ -115,7 +115,6 @@ class StatementController extends Controller
             ->groupBy('accounts.account_name')
             ->get();
     
-
         return view('Report.Statement.index', compact('akumulasiOverhead','akumulasiTenagaKerja','akumulasiOperasional','incomes','bebans','startMonth', 'endMonth', 'totalPendapatan', 'totalBebanOperasional', 'totalBebanUtilitas', 'totalBeban', 'totalHPP', 'labaKotor', 'labaBersih'));
     }
     

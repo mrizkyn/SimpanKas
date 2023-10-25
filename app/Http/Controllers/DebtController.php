@@ -63,8 +63,8 @@ class DebtController extends Controller
         $debt->date = $request->input('date');
         $debt->save();
 
-        return redirect('/debt');
-
+        $request->session()->flash('success', 'Data Berhasil Disimpan');
+        return redirect('/account');
     }
 
     /**

@@ -69,9 +69,13 @@
                             <label class="form-label" for="end_month">Periode Akhir:</label>
                             <input class="form-control" type="date" name="end_month" id="end_month">
                         </div>
+                        
                         <div class="col-md-4">
                             <button class="btn btn-success" type="submit">Tampilkan Laporan</button>
+                            {{-- <button class="btn btn-danger" id="cetakButton" type="submit">Cetak Laporan</button> --}}
                         </div>
+                   
+                     
                     </div>
                 </table>
             </form>
@@ -173,8 +177,7 @@
                                 <td style="background-color: rgb(3, 160, 212);" class="text-right"><b>{{ 'Rp ' . number_format($labaBersih, 0, ',', '.') }}</b></td>
                             </tr>
                         </tbody>
-                    </table>
-               
+                    </table>  
                 </div>
             </div>
         </div>
@@ -197,9 +200,18 @@
             });
         });
     </script>
+    {{-- <script>
+        document.getElementById('cetakButton').addEventListener('click', function () {
+            window.print();
+        });
+    </script> --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var startDateInput = document.getElementById('start_month');
+            var endDateInput = document.getElementById('end_month');
 
-<script>
-    document.getElementById('cetakButton').addEventListener('click', function () {
-        window.print();
-    });
-</script>
+            startDateInput.addEventListener('change', function () {
+                endDateInput.min = startDateInput.value;
+            });
+        });
+    </script>

@@ -20,8 +20,8 @@ class PermissionTableSeeder extends Seeder
             'role-create',
             'role-edit',
             'role-delete',
-            'akuntan-any',
-            'pemilik-any'.
+            'financial-any',
+            'owner-any',
             'superadmin-any'
 
          ];

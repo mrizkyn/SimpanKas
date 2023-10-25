@@ -3,10 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-
 
 class LoginController extends Controller
 {
@@ -21,37 +19,41 @@ class LoginController extends Controller
     |
     */
 
-    use AuthenticatesUsers {
-        logout as performLogout;
+    use AuthenticatesUsers;
+
+
+    public function showLoginForm()
+    {
+        return view('auth.login');
     }
-    
+    protected $redirectTo = '/';
 
-
-
-    protected function authenticated(Request $request, $user)
-{
-    $roles = $user->roles;
-
-    if ($roles) {
-        $name = $roles[0]['name'];
-
-        if ($name == 'superadmin') {
-            return redirect()->route('layouts.app');;
-        } elseif ($name == 'akuntan') {
-            return redirect()->route('layouts.index');;
-        } elseif ($name == 'pemilik') {
-            return redirect('layouts.laporan.app');
+    protected function authenticated($request, $user)
+    {
+        if ($user->hasRole('financial')) {
+            return redirect()->route('dashboard.index');
+        } elseif ($user->hasRole('owner')) {
+            return redirect()->route('owner.index');
+        } elseif ($user->hasRole('Superadmin')) {
+            return redirect()->route('superadmin.index');
         }
+
+        return redirect()->intended($this->redirectPath());
+    }
+        
+    public function logout()
+    {
+        $this->guard()->logout();
+
+        return redirect('/'); // Ubah ke /login agar setelah logout diarahkan ke rute login
     }
 
-    return redirect($this->redirectTo);
-}
     /**
      * Where to redirect users after login.
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    // protected $redirectTo = RouteServiceProvider::HOME;
 
     /**
      * Create a new controller instance.
@@ -62,4 +64,5 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+    
 }

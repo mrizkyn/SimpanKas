@@ -62,8 +62,8 @@ class AccountController extends Controller
         }
             
         $account->save();
-
-        return redirect()->route('accounts.index')->with('Data Berhasil Disimpan');
+        $request->session()->flash('success', 'Data Berhasil Disimpan');
+        return redirect('/account');
     }
 
     /**
