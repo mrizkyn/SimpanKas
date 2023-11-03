@@ -115,7 +115,7 @@
     
                             <div class="mb-3">
                                 <label for="receive_nominal" class="form-label">Nominal Piutang</label>
-                                <input type="text" class="form-control @error('receive_nominal') is-invalid @enderror" id="receive_nominal"
+                                <input type="text" class="form-control text-end @error('receive_nominal') is-invalid @enderror" id="receive_nominal"
                                     name="receive_nominal" value="{{ old('receive_nominal') }}" placeholder="Nominal Piutang">
                                 <div class="@error('receive_nominal') @enderror invalid-feedback">
                                     @foreach ($errors->get('receive_nominal') as $message)
@@ -190,18 +190,19 @@
                 <th>Tanggal Pembayaran</th>
                 <th>Deskripsi Piutang</th>
                 <th>Status</th>
+                <th>Pencatat</th>
             </tr>
         </thead>
         <tbody class="table-striped">
             @foreach ($receivables as $r)
             <tr>
                 <th scope="row">{{ $loop->iteration }}</th>
-                <td>{{ $r->date }}</td>
+                <td>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $r->date)->format('d F Y') }}</td>
                 <td>{{ $r->account->code_name }}</td>
                 <td>{{ $r->account->account_name }}</td>
                 <td>{{ $r->debt_recipient }}</td>
                 <td>Rp {{ number_format($r->receive_nominal, 0, ',', '.') }}</td> 
-                <td>{{ $r->payment_date }}</td>
+                <td>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $r->payment_date)->format('d F Y') }}</td>
                 <td>{{ $r->receive_desc }}</td>
                 <td>
                     <a href="#" onclick="showConfirmationModal({{ $r->id }});" class="card-status {{ $r->status ? 'bg-lunas' : 'bg-belum-lunas' }}">
@@ -211,6 +212,7 @@
                         @csrf
                     </form>
                 </td>
+                <td>{{ $r->noted_by }}</td>
             </tr>
             @endforeach
         </tbody>
@@ -246,11 +248,6 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    @if (session('success'))
-    <script>
-        alert('{{ session('success') }}');
-    </script>
-    @endif
 
     <script>
         $(document).ready(function () {

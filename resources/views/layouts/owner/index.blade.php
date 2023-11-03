@@ -4,14 +4,15 @@
   <body>
   
    
-    @include('layouts.laporan.app')
+    @extends('layouts.laporan.app')
     
     <!-- End Header -->
   
     <!-- ======= Hero Section ======= -->
-        
-    
-    <section id="hero" class="hero">
+      @section('content')
+          
+      
+      <section id="hero" class="hero">
         <div class="container position-relative">
         <div class="row gy-5" data-aos="fade-in">
           <div class="col-lg-6 order-2 order-lg-1 d-flex flex-column justify-content-center text-center text-lg-start">
@@ -112,9 +113,10 @@
   
       </div>
     </section>
-  
-  <!-- End Hero Section -->
-  
+    
+    <!-- End Hero Section -->
+    
+
   @endsection
   </body>
   

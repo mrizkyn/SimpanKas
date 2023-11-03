@@ -122,7 +122,7 @@
                 
                                         <div class="mb-3">
                                             <label for="debt_nominal" class="form-label">Nominal Hutang</label>
-                                            <input type="text" class="form-control @error('debt_nominal') is-invalid @enderror" id="debt_nominal"
+                                            <input type="text" class="form-control text-end @error('debt_nominal') is-invalid @enderror" id="debt_nominal"
                                                 name="debt_nominal" value="{{ old('debt_nominal') }}" placeholder="Nominal Hutang">
                                             <div class="@error('debt_nominal') @enderror invalid-feedback">
                                                 @foreach ($errors->get('debt_nominal') as $message)
@@ -194,7 +194,7 @@
                             <th>Tanggal</th>
                             <th>No Akun</th>
                             <th>Nama Akun</th>
-                            <th>Kreditor</th>
+                            <th>Kreditur</th>
                             <th>Nominal Hutang</th>
                             <th>Tanggal Jatuh Tempo</th>
                             <th>Deskripsi Hutang</th>
@@ -206,12 +206,12 @@
                         @foreach ($debts as $debt)
                         <tr>
                             <th scope="row">{{ $loop->iteration }}</th>
-                            <td>{{ $debt->date }}</td>
+                            <td>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $debt->date)->format('d F Y') }}</td>
                             <td>{{ $debt->Account->code_name }}</td>
                             <td>{{ $debt->Account->account_name }}</td>
                             <td>{{ $debt->creditor }}</td>
                             <td>Rp {{ number_format($debt->debt_nominal, 0, ',', '.') }}</td> 
-                            <td>{{ $debt->due_date }}</td>
+                            <td>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $debt->due_date)->format('d F Y') }}</td>
                             <td>{{ $debt->debt_desc }}</td>
                       
                             <td>
@@ -222,12 +222,7 @@
                                     @csrf
                                 </form>
                             </td>
-                            
-                            
-                            
-                            
-                        
-                            <td></td>
+                            <td>{{ $debt->noted_by }}</td>
                         </tr>
                         @endforeach
     
@@ -267,14 +262,6 @@
     @endsection
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    @if (session('success'))
-    <script>
-        alert('{{ session('success') }}');
-    </script>
-    @endif
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
     <script>
         $(document).ready(function () {
             $('#accountsTable').DataTable();
@@ -283,24 +270,16 @@
 
     <script>
         function showConfirmationModal(debtId) {
-            // Setel id formulir pada modal agar sesuai dengan kartu yang diklik
             var form = document.getElementById('debt-status-form-' + debtId);
             var modal = document.getElementById('confirmationModal');
-    
-            // Tampilkan modal
             var modalInstance = new bootstrap.Modal(modal);
             modalInstance.show();
-    
-            // Simpan referensi form dalam variabel global agar bisa di-submit
             window.currentForm = form;
         }
     
         function submitForm() {
-            // Periksa apakah form telah diset
             if (window.currentForm) {
-                // Submit form
                 window.currentForm.submit();
-                // Tutup modal
                 var modal = document.getElementById('confirmationModal');
                 var modalInstance = bootstrap.Modal.getInstance(modal);
                 modalInstance.hide();

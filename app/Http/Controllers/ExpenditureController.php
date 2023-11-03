@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Account;
 use App\Models\Expenditure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ExpenditureController extends Controller
 {
@@ -17,8 +18,8 @@ class ExpenditureController extends Controller
     {
         $expenditures = Expenditure::all();
         $accounts = Account::all();
-        $a = Account::whereIn('id', [1,5
-        ])->get();
+        $a = Account::whereIn('id', [1, 5])->orderBy('id', 'desc')->get();
+
         // $expenditures = Expenditure::with('Account');
         return view('Manager.Expenditure.index', compact('expenditures','accounts','a'));
     }
@@ -65,10 +66,10 @@ class ExpenditureController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'date' => 'required',
+            'date' => 'required|date',
             'account_id' => 'required',
-            'exp_desc' => 'required',
-            'nominal_exp' => 'required',
+            'exp_desc' => 'required|string',
+            'nominal_exp' => 'required|integer',
          
         ]);
     
@@ -79,14 +80,15 @@ class ExpenditureController extends Controller
         $exp = new Expenditure();
         $exp->date = $request->input('date');
         $exp->account_id = $request->input('account_id');
-        $exp->exp_desc = $request->input('exp_desc');
-        $exp->nominal_exp = $request->input('nominal_exp');
-        $exp->asset_period = $request->input('asset_period');
-        $exp->dep_month = $request->input('dep_month');
-        $exp->annual_dep = $request->input('annual_dep');
+        $exp->exp_desc = (string)$request->input('exp_desc');
+        $exp->nominal_exp = (integer)$request->input('nominal_exp');
+        $exp->asset_period = (integer)$request->input('asset_period');
+        $exp->dep_month = (integer)$request->input('dep_month');
+        $exp->annual_dep = (integer)$request->input('annual_dep');
+        $exp->noted_by = Auth::user()->name;
         $exp->save();
     
-        $request->session('success', 'Data Berhasil Disimpan');
+        $request->session()->flash('success', 'Data Berhasil Disimpan'); 
         return redirect('/expenditure');
     }
     

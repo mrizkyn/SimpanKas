@@ -108,7 +108,7 @@
                                                           
                                 <div class="mb-3">
                                     <label for="nominal_exp" class="form-label">Total Pengeluaran/Beban</label>
-                                    <input type="text" class="form-control @error('nominal_exp') is-invalid @enderror" id="nominal_exp"
+                                    <input type="text" class="form-control text-end @error('nominal_exp') is-invalid @enderror" id="nominal_exp"
                                     name="nominal_exp" value="{{ old('nominal_exp') }}" placeholder="Total Pengeluaran">
                                     <div class="@error('nominal_exp') @enderror invalid-feedback">
                                         @foreach ($errors->get('nominal_exp') as $message)
@@ -129,7 +129,7 @@
                                     </div>
                                 <div class="mb-3">
                                     <label for="annual_dep" class="form-label">Penyusutan Per-Tahun</label>
-                                    <input type="text" class="form-control @error('annual_dep') is-invalid @enderror" id="annual_dep"
+                                    <input type="text" class="form-control text-end @error('annual_dep') is-invalid @enderror" id="annual_dep"
                                     name="annual_dep" value="{{ old('annual_dep') }}" placeholder="Penyusutan Per-Tahun" disabled>
                                     <div class="@error('annual_dep') @enderror invalid-feedback" >
                                         @foreach ($errors->get('annual_dep') as $message)
@@ -139,7 +139,7 @@
                                     </div>
                                 <div class="mb-3">
                                     <label for="dep_month" class="form-label">Penyusutan Per-Bulan</label>
-                                    <input type="text" class="form-control @error('dep_month') is-invalid @enderror" id="dep_month"
+                                    <input type="text" class="form-control text-end @error('dep_month') is-invalid @enderror" id="dep_month"
                                     name="dep_month" value="{{ old('dep_month') }}" placeholder="Penyusutan Per-Bulan" disabled>
                                     <div class="@error('dep_month') @enderror invalid-feedback" >
                                         @foreach ($errors->get('dep_month') as $message)
@@ -180,10 +180,10 @@
                 @endif
 
                 @if (session('success'))
-                    <div class="alert alert-success">
-                        {{ session('success') }}
-                    </div>
-                    @endif
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+                @endif
                     <h2><b>Pengeluaran</b></h2>
                     <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#tambahDataModal">Tambah Data</button>
                     <br>
@@ -206,12 +206,12 @@
                                 @foreach ($expenditures as $exp)
                                 <tr>
                                     <th scope="row">{{ $loop->iteration }}</th>
-                                    <td>{{ $exp->date }}</td>
+                                    <td>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $exp->date)->format('d F Y') }}</td>
                                     <td>{{ $exp->Account->code_name }}</td>
                                     <td>{{ $exp->Account->account_name }}</td>
                                     <td>Rp {{ number_format($exp->nominal_exp, 0, ',', '.') }}</td> 
                                     <td>{{ $exp->exp_desc }}</td>
-                                    <td>rizky</td>
+                                    <td>{{ $exp->noted_by }}</td>
                                     <td>
                                     <button type="button" class="btn btn-primary edit-btn" 
                                     data-bs-toggle="modal" data-bs-target="#editDataModal"

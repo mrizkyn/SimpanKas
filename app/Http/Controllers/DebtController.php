@@ -7,6 +7,7 @@ use App\Models\Account;
 use App\Models\DebtRepaid;
 use DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DebtController extends Controller
 {
@@ -19,7 +20,7 @@ class DebtController extends Controller
     {
         $debtOn = Debt::all();
         $debtRepaids = DebtRepaid::all();
-        $debts = $debtOn->concat($debtRepaids);
+        $debts = $debtOn->concat($debtRepaids)->sortByDesc('created_at');
         $accounts = Account::all();
       
         return view('Manager.Debt.index', compact('debts','accounts'));
@@ -47,11 +48,11 @@ class DebtController extends Controller
 
         $validatedData = $request->validate([
          'account_id' => 'required',
-         'creditor' => 'required', 
-         'debt_nominal' => 'required',
-         'due_date' => 'required',
-         'debt_desc' => 'required',
-         'date' => 'required',
+         'creditor' => 'required|string', 
+         'debt_nominal' => 'required|integer',
+         'due_date' => 'required|date',
+         'debt_desc' => 'required|string',
+         'date' => 'required|date',
         ]);
 
         $debt = new Debt();
@@ -61,10 +62,12 @@ class DebtController extends Controller
         $debt->due_date = $request->input('due_date');
         $debt->debt_desc = $request->input('debt_desc');
         $debt->date = $request->input('date');
+        $debt->noted_by = Auth::user()->name;
         $debt->save();
 
-        $request->session()->flash('success', 'Data Berhasil Disimpan');
-        return redirect('/account');
+        $request->session()->flash('success', 'Data Berhasil Disimpan'); 
+        return redirect('/debt');
+
     }
 
     /**
@@ -134,6 +137,7 @@ class DebtController extends Controller
         $debtRepaid->debt_desc = $debt->debt_desc;
         $debtRepaid->date = $debt->date;
         $debtRepaid->status = true; 
+        $debt->noted_by = Auth::user()->name;
         $debtRepaid->save();
    
         $debt->delete();

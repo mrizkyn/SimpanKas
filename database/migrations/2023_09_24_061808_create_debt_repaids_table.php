@@ -22,6 +22,7 @@ class CreateDebtRepaidsTable extends Migration
             $table->string('debt_desc');
             $table->date('date');
             $table->boolean('status')->default(false);
+            $table->string('noted_by');
             $table->timestamps();
 
            

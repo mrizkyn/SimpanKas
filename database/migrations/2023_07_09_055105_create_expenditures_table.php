@@ -22,6 +22,7 @@ return new class extends Migration
             $table->integer('asset_period')->nullable();
             $table->integer('annual_dep')->nullable();
             $table->integer('dep_month')->nullable();
+            $table->string('noted_by');
 
             $table->timestamps();
         });

@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('receive_desc');
             $table->date('date');
             $table->boolean('status')->default(false);
+            $table->sring('noted_by');
             $table->timestamps();
 
             $table->foreign('account_id')->references('id')->on('accounts')->onDelete('cascade');

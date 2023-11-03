@@ -21,6 +21,7 @@ return new class extends Migration
             $table->date('due_date');
             $table->string('debt_desc');
             $table->date('date');
+            $table->string('noted_by');
             $table->timestamps();
         });
     }

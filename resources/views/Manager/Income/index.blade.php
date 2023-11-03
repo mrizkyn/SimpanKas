@@ -111,14 +111,14 @@
                                         
                                         <div class="mb-3">
                                             <label for="total" class="form-label">Total Pendapatan</label>
-                                            <input type="text" class="form-control @error('total') is-invalid @enderror" id="total"
-                                            name="total" value="{{ old('total') }}" placeholder="Total Pemasukan">
-                                            <div class="@error('total') @enderror invalid-feedback">
+                                            <input type="text" class="form-control text-end" id="total" name="total" oninput="formatRupiah(this)" placeholder="Total Pemasukan">
+                                            <div class="invalid-feedback">
                                                 @foreach ($errors->get('total') as $message)
                                                     {{ $message }}
                                                 @endforeach
                                             </div>
                                         </div>
+                                        
                 
                                         <div class="mb-3">
                                             <label for="descrription" class="form-label">Deskripsi</label>
@@ -181,12 +181,12 @@
                     @foreach ($incomes as $income)
                     <tr>
                         <td scope="row">{{ $loop->iteration }}</td>
-                        <td>{{ $income->date }}</td>
+                        <td>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $income->date)->format('d F Y') }}</td>
                         <td>{{ $income->Account->code_name }}</td>
                         <td>{{ $income->Account->account_name }}</td>
                         <td>{{ $income->descrription }}</td>
                         <td>Rp {{ number_format($income->total, 0, ',', '.') }}</td>
-                        <td>Rizky</td>
+                        <td>{{ $income->noted_by }}</td>
                         <td >
                             <button type="button" class="btn btn-primary edit-btn" 
                                     data-bs-toggle="modal" data-bs-target="#editDataModal"

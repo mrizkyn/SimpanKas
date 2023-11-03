@@ -6,6 +6,7 @@ use App\Models\Account;
 use App\Models\Receivable;
 use App\Models\ReceivableRepaid;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ReceivablesController extends Controller
 {
@@ -18,7 +19,7 @@ class ReceivablesController extends Controller
     {
         $receivableOn = Receivable::all();
         $receivableRepaids = ReceivableRepaid::all();
-        $receivables = $receivableOn->concat($receivableRepaids);
+        $receivables = $receivableOn->concat($receivableRepaids)->sortByDesc('created_at');
         $accounts = Account::all();
         
         return view('Manager.Receivables.index', compact('receivables','accounts'));
@@ -46,11 +47,11 @@ class ReceivablesController extends Controller
 
         $validatedData = $request->validate([
          'account_id' => 'required',
-         'debt_recipient' => 'required', 
-         'receive_nominal' => 'required',
-         'payment_date' => 'required',
-         'receive_desc' => 'required',
-         'date' => 'required',
+         'debt_recipient' => 'required|string', 
+         'receive_nominal' => 'required|integer',
+         'payment_date' => 'required|date',
+         'receive_desc' => 'required|string',
+         'date' => 'required|date',
         ]);
 
         $r = new Receivable();
@@ -60,7 +61,9 @@ class ReceivablesController extends Controller
         $r->payment_date = $request->input('payment_date');
         $r->receive_desc = $request->input('receive_desc');
         $r->date = $request->input('date');
+        $r->noted_by = Auth::user()->name;
         $r->save();
+        $request->session()->flash('success', 'Data Berhasil Disimpan'); 
         return redirect('/receivables');
 
     }
@@ -133,6 +136,7 @@ class ReceivablesController extends Controller
         $receivableRepaid->receive_desc = $r->receive_desc;
         $receivableRepaid->date = $r->date;
         $receivableRepaid->status = true; 
+        $r->noted_by = Auth::user()->name;
         $receivableRepaid->save();
    
         $r->delete();

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->date('payment_date');
             $table->string('receive_desc');
             $table->date('date');
+            $table->string('noted_by');
             $table->timestamps();
         });
     }

@@ -6,6 +6,7 @@ use App\Models\Income;
 use App\Models\Account;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\Auth;
 
 class IncomeController extends Controller
 {
@@ -16,7 +17,7 @@ class IncomeController extends Controller
      */
     public function index()
     {
-        $incomes = Income::all();
+        $incomes = Income::orderBy('date','desc')->get();
         $accounts = Account::all();
         // $incomes = Income::with('Account');
         return view('Manager.Income.index', compact('incomes','accounts'));
@@ -55,6 +56,8 @@ class IncomeController extends Controller
         $income->descrription = $request->input('descrription');
         $income->total = $request->input('total');
         $income->date = $request->input('date');
+        $income->noted_by = Auth::user()->name;
+
         $income->save();
 
         $request->session()->flash('success', 'Data Berhasil Disimpan');

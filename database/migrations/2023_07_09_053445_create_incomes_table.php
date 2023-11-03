@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('total');
             $table->string('descrription');
             $table->date('date');
+            $table->string('noted_by');
             $table->timestamps();
 
             
