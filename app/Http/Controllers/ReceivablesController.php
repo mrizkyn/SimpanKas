@@ -136,7 +136,7 @@ class ReceivablesController extends Controller
         $receivableRepaid->receive_desc = $r->receive_desc;
         $receivableRepaid->date = $r->date;
         $receivableRepaid->status = true; 
-        $r->noted_by = Auth::user()->name;
+        $receivableRepaid->noted_by = Auth::user()->name;
         $receivableRepaid->save();
    
         $r->delete();

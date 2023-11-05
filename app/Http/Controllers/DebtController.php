@@ -137,7 +137,7 @@ class DebtController extends Controller
         $debtRepaid->debt_desc = $debt->debt_desc;
         $debtRepaid->date = $debt->date;
         $debtRepaid->status = true; 
-        $debt->noted_by = Auth::user()->name;
+        $debtRepaid->noted_by = Auth::user()->name;
         $debtRepaid->save();
    
         $debt->delete();

@@ -178,7 +178,7 @@
         <br>
         <br>
   <div class="table-responsive nowrap" style="width:100%">
-    <table id="accountsTable" class="table table-striped">
+    <table id="accountsTable" class="table table-striped" style="font-size: 13px">
         <thead>
             <tr>
                 <th>No</th>
@@ -191,6 +191,7 @@
                 <th>Deskripsi Piutang</th>
                 <th>Status</th>
                 <th>Pencatat</th>
+                <th>Aksi</th>
             </tr>
         </thead>
         <tbody class="table-striped">
@@ -205,14 +206,21 @@
                 <td>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $r->payment_date)->format('d F Y') }}</td>
                 <td>{{ $r->receive_desc }}</td>
                 <td>
-                    <a href="#" onclick="showConfirmationModal({{ $r->id }});" class="card-status {{ $r->status ? 'bg-lunas' : 'bg-belum-lunas' }}">
+                    <span style="font-size: 12px" class="card-status {{ $r->status ? 'bg-lunas' : 'bg-belum-lunas' }}">
                         {{ $r->status ? 'Lunas' : 'Belum Lunas' }}
-                    </a>
-                    <form style="display: none;" id="r-status-form-{{ $r->id }}" method="POST" action="{{ route('receivable.status', $r->id) }}">
-                        @csrf
-                    </form>
+                    </span>
                 </td>
                 <td>{{ $r->noted_by }}</td>
+                <td>
+                    <a href="#" 
+                    onclick="{{ $r->status !== 'Lunas' ? 'showConfirmationModal(' . $r->id . ');' : 'return false;' }}" 
+                    class="btn btn-warning btn-sm">
+                    Lunasi
+                </a>
+                <form style="display: none;" id="r-status-form-{{ $r->id }}" method="POST" action="{{ route('receivable.status', $r->id) }}">
+                    @csrf
+                </form>
+                </td>
             </tr>
             @endforeach
         </tbody>

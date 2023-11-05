@@ -21,8 +21,8 @@
 
 
         .card-status {
-            width: 90px;
-            height: 30px;
+            width: 85px;
+            height: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -187,7 +187,7 @@
                     <br>
                     <br>
                     <div class="table-responsive nowrap" style="width:100%">
-                <table id="accountsTable" class="table table-striped">
+                <table id="accountsTable" class="table table-striped" style="font-size: 13px">
                     <thead>
                         <tr>
                             <th>No</th>
@@ -200,6 +200,7 @@
                             <th>Deskripsi Hutang</th>
                             <th>Status</th>
                             <th>Pencatat</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="table-striped">
@@ -215,14 +216,24 @@
                             <td>{{ $debt->debt_desc }}</td>
                       
                             <td>
-                                <a href="#" onclick="showConfirmationModal({{ $debt->id }});" class="card-status {{ $debt->status ? 'bg-lunas' : 'bg-belum-lunas' }}">
+                                <span style="font-size: 12px" class="card-status {{ $debt->status ? 'bg-lunas' : 'bg-belum-lunas' }}">
                                     {{ $debt->status ? 'Lunas' : 'Belum Lunas' }}
+                                </span>
+
+                            </td>
+                            <td>{{ $debt->noted_by }}</td>
+                            <td>
+                                <a href="#" 
+                                    onclick="{{ $debt->status !== 'Lunas' ? 'showConfirmationModal(' . $debt->id . ');' : 'return false;' }}" 
+                                    class="btn btn-warning btn-sm">
+                                    Lunasi
                                 </a>
                                 <form style="display: none;" id="debt-status-form-{{ $debt->id }}" method="POST" action="{{ route('debt.status', $debt->id) }}">
                                     @csrf
                                 </form>
                             </td>
-                            <td>{{ $debt->noted_by }}</td>
+                            
+                            
                         </tr>
                         @endforeach
     

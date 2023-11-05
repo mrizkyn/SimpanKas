@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ReceivableRepaid extends Model
 {
-    protected $fillable = ['account_id', 'debt_recipient', 'receive_nominal', 'payment_date', 'receive_desc', 'date'];
+    protected $fillable = ['account_id', 'debt_recipient', 'receive_nominal', 'payment_date', 'receive_desc', 'date', 'noted_by'];
 
     public function Account(){
         return $this->belongsTo(Account::class);
