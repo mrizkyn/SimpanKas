@@ -48,7 +48,7 @@
   </head>
   
   <body style="background-color: rgba(0, 131, 116, 0.9)">
-    @extends('layouts.laporan.app')
+    @extends('layouts.laporan.calk.app')
   
     @section('content')
 

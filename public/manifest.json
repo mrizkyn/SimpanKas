@@ -1,9 +1,9 @@
 {
     "name": "Simpan Kas",
-    "short_name": "Kas",
+    "short_name": "Simpan Kas",
     "description": "",
     "start_url": "/",
-    "background_color": "#ffffff",
+    "background_color": "#008374",
     "theme_color": "#000000",
     "display": "standalone",
     "orientation": "portrait",

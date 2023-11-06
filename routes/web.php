@@ -115,10 +115,7 @@ Route::group(['middleware' => ['auth', 'role:owner']], function () {
 Auth::routes();
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('/', [LoginController::class ,'showLoginForm'])->name('showLoginForm');
-
-
-   
-// Route::get('/home', [HomeController::class,'index'])->name('home');
+Route::get('/', [HomeController::class,'index'])->name('home');
    
 Route::group(['middleware' => ['auth', 'role:Superadmin']], function () {
     Route::get('/superadmin', [SuperadminController::class, 'index'])->name('superadmin.index');
