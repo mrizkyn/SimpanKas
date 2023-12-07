@@ -15,6 +15,13 @@ return new class extends Migration
     {
         Schema::create('revision_notes', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('account_id');
+            $table->date('date_after');
+            $table->date('date');
+            $table->integer('initial_nominal');
+            $table->integer('revised_nominal');
+            $table->string('desc');
+            $table->string('noted_by');
             $table->timestamps();
         });
     }

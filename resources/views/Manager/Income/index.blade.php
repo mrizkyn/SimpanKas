@@ -37,7 +37,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="editDataModalLabel">Tambah Penyesuaian</h5>
+                        <h5 class="modal-title" id="editDataModalLabel">Catat Penyesuaian</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -45,8 +45,28 @@
                             @csrf
                             @method('PUT')
                             <div class="mb-3">
-                                <label for="edit_income_name">Total Penjualan:</label>
-                                <input type="text" class="form-control" id="edit_income_name" name="edit_income_name" required>
+                                <label for="date">Tanggal Sebelum Revisi :</label>
+                                <input type="date" class="form-control" id="date" name="date" required readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label for="date_after">Tanggal Revisi :</label>
+                                <input type="date" class="form-control" id="date_after" name="date_after" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="account_name">Nama Akun:</label>
+                                <input type="text" class="form-control" id="codename" name="codename" required readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label for="initial_nominal">Total Awal:</label>
+                                <input type="text" class="form-control" id="edit_income_name" name="edit_income_name" required readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label for="revised_nominal">Revisi :</label>
+                                <input type="number" class="form-control" id="revised_nominal" name="revised_nominal" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="desc">Deskripsi :</label>
+                                <input type="text" class="form-control" id="desc" name="desc" required>
                             </div>
                             <div class="modal-footer">
                                 <button type="submit" class="btn btn-success">Simpan</button>
@@ -111,7 +131,7 @@
                                         
                                         <div class="mb-3">
                                             <label for="total" class="form-label">Total Pendapatan</label>
-                                            <input type="text" class="form-control text-end" id="total" name="total" oninput="formatRupiah(this)" placeholder="Total Pemasukan">
+                                            <input type="number" class="form-control text-end" id="total" name="total" oninput="formatRupiah(this)" placeholder="Total Pemasukan">
                                             <div class="invalid-feedback">
                                                 @foreach ($errors->get('total') as $message)
                                                     {{ $message }}
@@ -174,7 +194,7 @@
                         <th>Deskripsi</th>
                         <th>Total Penjualan</th>
                         <th>Pencatat</th>
-                        <th>Tambah Penyesuaian</th>
+                        <th>Catat Revisi</th>
                     </tr>
                 </thead>
                 <tbody class="table-striped">
@@ -189,10 +209,13 @@
                         <td>{{ $income->noted_by }}</td>
                         <td >
                             <button type="button" class="btn btn-primary edit-btn" 
-                                    data-bs-toggle="modal" data-bs-target="#editDataModal"
-                                    data-income-id="{{ $income->id }}" data-income-total="{{ $income->total }}">
-                                    <i class="bi bi-clipboard-plus"></i>
-                            </button>
+                            data-bs-toggle="modal" data-bs-target="#editDataModal"
+                            data-income-id="{{ $income->id }}" 
+                            data-income-account-name="{{ $income->Account->account_name }}"
+                            data-income-total="{{ $income->total }}"
+                            data-income-date="{{ $income->date }}">
+                        <i class="bi bi-clipboard-plus"></i>
+                    </button>
                         </td>
                     </tr>
                     @endforeach
@@ -240,8 +263,13 @@
         $(document).ready(function () {
             $('.edit-btn').click(function () {
                 var incomeId = $(this).data('income-id');
+                var incomeCodeName = $(this).data('income-account-name');
+                $('#codename').val(incomeCodeName);            
                 var incomeTotal = $(this).data('income-total');
                 $('#edit_income_name').val(incomeTotal);            
+                var incomeDate = $(this).data('income-date');
+                $('#date').val(incomeDate);            
+                     
                 var editFormAction = "{{ route('income.update', ['id' => ':id']) }}".replace(':id', incomeId);
                 $('#editDataModal form').attr('action', editFormAction);
             });
